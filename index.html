@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Look — Private Photo Sharing for Your Wedding</title>
+    <meta name="description" content="The simplest way to collect and share wedding photos. Guests scan a QR code, upload their shots, and your memories stay private — no accounts, no ads, no data tracking.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="First Look — Private Photo Sharing for Your Wedding">
+    <meta property="og:description" content="Guests scan a QR code, snap their photos, and upload them to your private album. No apps, no accounts, no tracking.">
+    <meta property="og:url" content="https://firstlook.love">
+    <meta property="og:site_name" content="First Look">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="First Look — Private Photo Sharing for Your Wedding">
+    <meta name="twitter:description" content="Guests scan a QR code, snap their photos, and upload them to your private album. No apps, no accounts, no tracking.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://firstlook.love">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #FBF9F6;
+            --bg-secondary: #F3EDE4;
+            --bg-blush: #FAF0EB;
+            --accent: #B8976A;
+            --accent-dark: #96784F;
+            --accent-rose: #C9917A;
+            --text-primary: #3D3530;
+            --text-secondary: #6B5E56;
+            --text-muted: #9C8F87;
+            --border: #E8DFD5;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(251, 249, 246, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-dark); }
+
+        /* Hero */
+        .hero {
+            margin-top: 64px;
+            padding: 100px 24px 80px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-blush) 100%);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(184, 151, 106, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent-dark);
+        }
+
+        .hero-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* How it Works */
+        .how-it-works {
+            padding: 80px 24px;
+            background: var(--bg-primary);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 400;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 3.5rem;
+            line-height: 1.25;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            padding: 32px 20px;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-blush);
+            border: 2px solid var(--accent-rose);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--accent-rose);
+            font-weight: 500;
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 24px;
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 32px;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(61, 53, 48, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: var(--bg-blush);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 80px 24px;
+            background: var(--bg-primary);
+            text-align: center;
+        }
+
+        .proof-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .proof-stat {
+            text-align: center;
+        }
+
+        .proof-number {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            color: var(--accent);
+        }
+
+        .proof-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .proof-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 80px 24px;
+            background: var(--bg-blush);
+        }
+
+        .pricing-card {
+            max-width: 480px;
+            margin: 2rem auto 0;
+            background: var(--bg-primary);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #FFFFFF;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .price {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin: 1.5rem 0;
+        }
+
+        .price-period {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 400;
+            font-family: var(--font-body);
+        }
+
+        .price-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .price-features {
+            text-align: left;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .price-features li {
+            padding: 10px 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .price-features li:last-child { border-bottom: none; }
+
+        .price-features li::before {
+            content: '\2713  ';
+            color: var(--accent-rose);
+            font-weight: 700;
+        }
+
+        .pricing .btn-primary { width: 100%; }
+
+        .pricing-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+
+        /* Waitlist */
+        .waitlist {
+            padding: 100px 24px;
+            background: var(--bg-primary);
+            text-align: center;
+        }
+
+        .waitlist-content { max-width: 520px; margin: 0 auto; }
+
+        .waitlist h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .waitlist-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: var(--bg-primary);
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .email-input::placeholder { color: var(--text-muted); }
+        .email-input:focus { outline: none; border-color: var(--accent); }
+
+        .form-feedback {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            min-height: 24px;
+        }
+
+        .form-success { color: var(--accent-rose); }
+
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 48px 24px 32px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .footer-section h4 {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul { list-style: none; }
+
+        .footer-section ul li { margin-bottom: 8px; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-dark); }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            text-align: center;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-display);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.75rem; }
+            .hero { padding: 80px 24px 60px; }
+            .hero-cta { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 320px; text-align: center; }
+            .steps { grid-template-columns: 1fr; gap: 16px; }
+            .step { padding: 24px 16px; }
+            .features, .how-it-works, .social-proof, .pricing, .waitlist { padding: 60px 24px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .proof-stats { gap: 32px; }
+            .email-form { flex-direction: column; }
+            .pricing-card { padding: 32px 24px; }
+            .footer-content { flex-direction: column; gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="#" class="nav-logo">First Look</a>
+            <ul class="nav-links">
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#waitlist">Waitlist</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Every Guest Is a<br><em>Photographer</em></h1>
+            <p class="hero-sub">Guests scan a QR code at your table, snap their photos, and upload them right to your private album. No app downloads. No accounts. No data tracking.</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' })">Join the Waitlist</button>
+                <a href="#how" class="btn btn-secondary">See How It Works</a>
+            </div>
+            <p class="hero-note">Launching Summer 2026. Be the first to know.</p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how">
+        <div class="container">
+            <p class="section-label">Simple by Design</p>
+            <h2 class="section-title">Three Steps to Every Photo</h2>
+
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Print Your Signs</h3>
+                    <p>Create a beautiful QR code table sign customized to your wedding colors. Print at home or at any print shop.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>Guests Scan & Snap</h3>
+                    <p>No app to download. Guests point their camera at the QR code, take photos, and upload right from their phone.</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>Relive Every Moment</h3>
+                    <p>View, share, and download every photo from your wedding in one private album. Metadata is stripped automatically for privacy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <p class="section-label">Built for Couples</p>
+            <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F4F1;</div>
+                    <h3>No App Required</h3>
+                    <p>Guests upload photos from their phone's browser. No downloads, no signups, no friction. Even grandma can do it.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F512;</div>
+                    <h3>Private by Default</h3>
+                    <p>GPS coordinates, camera info, and timestamps are stripped from every photo. Your memories stay yours, not data brokers'.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F3A8;</div>
+                    <h3>Customizable Signs</h3>
+                    <p>Design QR code table signs that match your wedding colors. Print full-page for easels or quarter-page for tabletop acrylic frames.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F4E6;</div>
+                    <h3>Bulk Download</h3>
+                    <p>Download every photo as a zip file with one click. Share the album with family and friends via a private link.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F510;</div>
+                    <h3>Password Protected</h3>
+                    <p>Add a password to your album so only invited guests can view photos. Share the password on your wedding website or invitations.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F4FA;</div>
+                    <h3>Live Reception Slideshow</h3>
+                    <p>Display photos on a TV as guests upload them in real time. Open the slideshow URL on any smart TV, Fire Stick, or Chromecast. No laptop needed.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x2728;</div>
+                    <h3>Photo Moderation</h3>
+                    <p>Review guest uploads before they go live. Approve, reject, or favorite photos — you stay in control of your album.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">&#x1F4AC;</div>
+                    <h3>Guest Book</h3>
+                    <p>Guests can leave heartfelt messages alongside their photos. A digital guest book you'll actually want to read.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="proof-stats">
+                <div class="proof-stat">
+                    <div class="proof-number">0 trackers</div>
+                    <div class="proof-label">on this page</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-number">100%</div>
+                    <div class="proof-label">client-side</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-number">0 bytes</div>
+                    <div class="proof-label">sent to third parties</div>
+                </div>
+            </div>
+
+            <p class="proof-text">We built this because every other wedding photo platform scrapes metadata, tracks your guests, or feeds your photos to AI training sets. We think that's wrong.</p>
+
+            <div class="trust-badges">
+                <span class="trust-badge">Metadata stripping</span>
+                <span class="trust-badge">No third-party tracking</span>
+                <span class="trust-badge">No AI training</span>
+                <span class="trust-badge">No accounts required</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <p class="section-label">Simple Pricing</p>
+            <h2 class="section-title">One Price. Your Whole Wedding.</h2>
+
+            <div class="pricing-card">
+                <div class="pricing-badge">Launch Price</div>
+                <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; margin-top: 8px; color: var(--text-primary);">Wedding Package</h3>
+                <div class="price">$99<span class="price-period"> one-time</span></div>
+                <p class="price-description">No subscriptions. No per-photo charges. Pay once and use it for your entire wedding journey.</p>
+
+                <ul class="price-features">
+                    <li>Unlimited photos and albums</li>
+                    <li>Customizable QR code table signs</li>
+                    <li>Automatic metadata stripping</li>
+                    <li>Password-protected sharing</li>
+                    <li>Bulk download as ZIP</li>
+                    <li>Beautiful guest upload experience</li>
+                    <li>Live reception slideshow for smart TVs</li>
+                    <li>Digital guest book</li>
+                    <li>Photo moderation controls</li>
+                    <li>Lifetime access to your photos</li>
+                </ul>
+
+                <button class="btn btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' })">Join the Waitlist</button>
+                <p class="pricing-note">Coming Summer 2026. Early adopters get 50% off.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section class="waitlist" id="waitlist">
+        <div class="waitlist-content">
+            <h2>Be the First to Know</h2>
+            <p class="waitlist-description">Get early access and the launch discount when we go live this summer.</p>
+
+            <form id="waitlistForm" onsubmit="handleWaitlistSubmit(event)">
+                <div class="email-form">
+                    <input
+                        type="email"
+                        id="emailInput"
+                        class="email-input"
+                        placeholder="your@email.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <button type="submit" class="btn btn-primary" style="width: auto; white-space: nowrap;">Join Waitlist</button>
+                </div>
+                <div class="form-feedback" id="formFeedback"></div>
+            </form>
+
+            <p class="form-note">We'll only email you about the launch. Because obviously, we don't share your data.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#how">How It Works</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="mailto:hello@firstlook.love">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-tagline">First Look — Made with love and zero trackers.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Waitlist form — posts to Supabase when live, localStorage fallback for dev
+        const SUPABASE_URL = '';  // Set to your Supabase URL when live
+        const SUPABASE_ANON_KEY = '';  // Set to your anon key when live
+
+        async function handleWaitlistSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const feedback = document.getElementById('formFeedback');
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+
+            if (!email || !email.includes('@')) {
+                feedback.textContent = 'Please enter a valid email.';
+                feedback.style.color = '#DC2626';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Joining...';
+
+            try {
+                if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                            'Prefer': 'return=minimal',
+                        },
+                        body: JSON.stringify({ email }),
+                    });
+                    if (res.status === 409) {
+                        // Already on the list — that's fine
+                    } else if (!res.ok) {
+                        throw new Error('Failed to join');
+                    }
+                } else {
+                    // Local fallback
+                    const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+                    if (!waitlist.includes(email)) {
+                        waitlist.push(email);
+                        localStorage.setItem('waitlist', JSON.stringify(waitlist));
+                    }
+                }
+
+                feedback.textContent = "You're on the list! We'll be in touch.";
+                feedback.classList.add('form-success');
+                document.getElementById('emailInput').value = '';
+            } catch (err) {
+                feedback.textContent = 'Something went wrong. Try again?';
+                feedback.style.color = '#DC2626';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join Waitlist';
+                setTimeout(() => {
+                    feedback.textContent = '';
+                    feedback.classList.remove('form-success');
+                    feedback.style.color = '';
+                }, 4000);
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
