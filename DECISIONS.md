@@ -73,6 +73,7 @@ Running log of all decisions, directions, and open questions so nothing gets los
 | Feature | Detail | Priority |
 |---------|--------|----------|
 | **Video messages from guests** | Guests record 30-60s video messages for the couple via browser MediaRecorder API. Premium upsell feature ($29-49 add-on or bundled in higher tier). Supabase Storage for video files, cap file size to control costs. Natural extension of guest book. | High |
+| **Merch / print-on-demand** | Dropshipping integration for t-shirts, mugs, party favors, souvenirs. Target audience: best man/bridesmaids planning showers, bachelorette/bachelor parties. Will integrate with the apparel mockup app Christopher is building separately. Cross-product synergy between First Look and the mockup tool. | High |
 | **Thank you card generator** | Generate printable thank-you cards using uploaded photos. | Medium |
 | **Export to cloud** | Export album to Google Photos, iCloud, Dropbox. | Low |
 | **Timeline view** | Photos organized by time of day (ceremony, cocktails, reception, etc.). | Low |
@@ -87,6 +88,7 @@ Running log of all decisions, directions, and open questions so nothing gets los
 | **Landing page integrated into React app** | Moved landing page from standalone HTML into a React component (`LandingPage.jsx`). `/` shows landing page, `/dashboard` shows authenticated app. One Vercel project deploys everything. | 2026-04-05 |
 | **Use existing Stripe account** | No need for a separate Stripe account. Create a Product + $99 Price under existing account. Separate accounts only needed if First Look becomes its own legal entity. | 2026-04-09 |
 | **Video messages = premium upsell** | Guest video messages (30-60s, browser-recorded) planned as first premium feature. Upsell via add-on or higher pricing tier. Builds on existing guest book UX. Ship core product first, add video post-launch. | 2026-04-09 |
+| **Merch/print-on-demand = future integration** | T-shirts, mugs, party favors via dropshipping. Targets bridal party planners (best man, bridesmaids). Will connect to Christopher's separate apparel mockup app when ready. Not in v1 — ship core photo product first, add merch as a revenue expansion. | 2026-04-09 |
 
 ## Open Questions
 

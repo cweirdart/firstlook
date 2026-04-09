@@ -14,6 +14,9 @@ import SharedAlbum from './pages/SharedAlbum'
 import Checkout from './pages/Checkout'
 import CheckoutSuccess from './pages/CheckoutSuccess'
 import Admin from './pages/Admin'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsOfService from './pages/TermsOfService'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -27,6 +30,10 @@ function App() {
 
       {/* Admin dashboard */}
       <Route path="/admin" element={<Admin />} />
+
+      {/* Legal pages */}
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfService />} />
 
       {/* Guest-facing routes (no app chrome) */}
       <Route path="/share/:shareCode" element={<SharedAlbum />} />
@@ -47,6 +54,9 @@ function App() {
         <Route path="/album/:id/signs" element={<TableSignGenerator />} />
         <Route path="/album/:id/slideshow" element={<Slideshow />} />
       </Route>
+
+      {/* 404 catch-all */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
