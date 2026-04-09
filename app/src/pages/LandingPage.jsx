@@ -651,7 +651,7 @@ const LandingPage = () => {
           font-style: italic;
         }
 
-        /* Animations */
+        /* Animations — fade-in on scroll via IntersectionObserver */
         .landing-page .fade-in {
           opacity: 0;
           transform: translateY(16px);
@@ -661,6 +661,27 @@ const LandingPage = () => {
         .landing-page .fade-in.visible {
           opacity: 1;
           transform: translateY(0);
+        }
+
+        /* Safety: if JS hasn't added .visible after 2s, show content anyway */
+        @keyframes fadeInFallback {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .landing-page .fade-in {
+          animation: fadeInFallback 0.5s ease 2s forwards;
+        }
+        .landing-page .fade-in.visible {
+          animation: none;
+        }
+
+        /* Prefer reduced motion — skip animations entirely */
+        @media (prefers-reduced-motion: reduce) {
+          .landing-page .fade-in {
+            opacity: 1;
+            transform: none;
+            transition: none;
+            animation: none;
+          }
         }
 
         /* Responsive */
@@ -838,7 +859,7 @@ const LandingPage = () => {
               <li>Lifetime access to your photos</li>
             </ul>
 
-            <button className="btn btn-primary" onClick={handleHeroCTA}>Join the Waitlist</button>
+            <button className="btn btn-primary" onClick={() => navigate('/checkout?plan=wedding')}>Get Early Access</button>
             <p className="pricing-note">Coming Summer 2026. Early adopters get 50% off.</p>
           </div>
         </div>

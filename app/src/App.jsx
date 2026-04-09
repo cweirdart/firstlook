@@ -11,12 +11,22 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Upload from './pages/Upload'
 import SharedAlbum from './pages/SharedAlbum'
+import Checkout from './pages/Checkout'
+import CheckoutSuccess from './pages/CheckoutSuccess'
+import Admin from './pages/Admin'
 
 function App() {
   return (
     <Routes>
       {/* Landing page (marketing) */}
       <Route path="/" element={<LandingPage />} />
+
+      {/* Checkout flow */}
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/checkout/success" element={<CheckoutSuccess />} />
+
+      {/* Admin dashboard */}
+      <Route path="/admin" element={<Admin />} />
 
       {/* Guest-facing routes (no app chrome) */}
       <Route path="/share/:shareCode" element={<SharedAlbum />} />

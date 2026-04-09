@@ -101,17 +101,28 @@ Running log of all decisions, directions, and open questions so nothing gets los
 - [ ] Music for slideshow — Spotify embed? Upload MP3? Licensing?
 - [ ] Thank you cards — layout options? Include guest name?
 
+## Features Built (v3 — April 2026)
+
+- **Stripe checkout page** (`/checkout`) — $99 one-time payment flow. When Stripe keys are configured (VITE_STRIPE_PUBLISHABLE_KEY), redirects to Stripe Checkout. Before that, captures pre-order intent and adds to waitlist. Supports Stripe Payment Links and Supabase Edge Functions for session creation.
+- **Checkout success page** (`/checkout/success`) — confirms payment or waitlist signup. Two modes: "waitlist" (pre-launch) and "paid" (post-launch with account creation CTA).
+- **Admin dashboard** (`/admin`) — password-protected admin panel showing waitlist signups with stats (total, today, this week), CSV export, and table view. Default password: `firstlook2026` (configurable via VITE_ADMIN_PASSWORD).
+- **Fade-in CSS fallback** — added CSS @keyframes fallback so sections become visible after 2s even if IntersectionObserver fails. Also added `prefers-reduced-motion` support.
+- **Pricing CTA → checkout** — pricing section "Get Early Access" button now routes to /checkout instead of scrolling to waitlist.
+
 ## Deployment Checklist
 
-- [ ] Create Supabase project
-- [ ] Run migration (`001_initial_schema.sql`)
-- [ ] Create storage buckets (`photos`, `thumbnails`) with policies
-- [ ] Set up Vercel project, connect to repo
-- [ ] Add env vars (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
+- [x] Create Supabase project (wutegwjlutfubyjrzqgb, East US)
+- [x] Run migration (`001_initial_schema.sql`)
+- [x] Create storage buckets (`photos`, `thumbnails`) with public access + RLS policies
+- [x] Set up Vercel project, connect to GitHub (cweirdart/firstlook)
+- [x] Add env vars (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY) in Vercel
 - [x] Configure firstlook.love DNS → Vercel (A record @ → 76.76.21.21, CNAME www → cname.vercel-dns.com)
-- [ ] Set up Stripe for payments
-- [ ] SSL/HTTPS (automatic with Vercel)
+- [x] SSL/HTTPS (automatic with Vercel — generating certificates)
+- [x] Test waitlist API end-to-end (POST returns 201, data saved)
+- [ ] Set up Stripe account + add VITE_STRIPE_PUBLISHABLE_KEY and VITE_STRIPE_PAYMENT_LINK env vars
+- [ ] Set up VITE_ADMIN_PASSWORD env var in Vercel (production admin password)
 - [ ] Test full flow: signup → create album → print QR → guest upload → view photos → slideshow
+- [ ] Verify email forwarding (hello@firstlook.love → info@cweird.com)
 
 ## Rejected Approaches
 
