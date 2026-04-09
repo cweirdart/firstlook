@@ -312,6 +312,10 @@ const LandingPage = () => {
         .landing-page .step {
           text-align: center;
           padding: 32px 20px;
+          background: white;
+          border: 1.5px solid #D4C8BA;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(61, 53, 48, 0.06);
         }
 
         .landing-page .step-number {
@@ -359,15 +363,16 @@ const LandingPage = () => {
 
         .landing-page .feature-card {
           background: var(--bg-primary);
-          border: 1px solid var(--border);
+          border: 1.5px solid #D4C8BA;
           border-radius: 8px;
           padding: 32px;
           transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(61, 53, 48, 0.06);
         }
 
         .landing-page .feature-card:hover {
           border-color: var(--accent);
-          box-shadow: 0 4px 16px rgba(61, 53, 48, 0.06);
+          box-shadow: 0 6px 20px rgba(61, 53, 48, 0.1);
           transform: translateY(-2px);
         }
 
@@ -446,7 +451,7 @@ const LandingPage = () => {
 
         .landing-page .trust-badge {
           background: var(--bg-secondary);
-          border: 1px solid var(--border);
+          border: 1.5px solid #D4C8BA;
           color: var(--text-secondary);
           padding: 8px 16px;
           border-radius: 20px;
@@ -464,11 +469,12 @@ const LandingPage = () => {
           max-width: 480px;
           margin: 2rem auto 0;
           background: var(--bg-primary);
-          border: 1.5px solid var(--border);
+          border: 1.5px solid #D4C8BA;
           border-radius: 12px;
           padding: 40px;
           text-align: center;
           position: relative;
+          box-shadow: 0 4px 16px rgba(61, 53, 48, 0.08);
         }
 
         .landing-page .pricing-badge {
@@ -570,17 +576,17 @@ const LandingPage = () => {
         .landing-page .email-input {
           flex: 1;
           padding: 14px 16px;
-          background: var(--bg-primary);
-          border: 1.5px solid var(--border);
+          background: #FEFEFE;
+          border: 1.5px solid #C4B5A5;
           border-radius: 6px;
           color: var(--text-primary);
           font-family: var(--font-body);
           font-size: 0.9rem;
-          transition: border-color 0.2s ease;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .landing-page .email-input::placeholder { color: var(--text-muted); }
-        .landing-page .email-input:focus { outline: none; border-color: var(--accent); }
+        .landing-page .email-input::placeholder { color: #B0A498; }
+        .landing-page .email-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(184, 151, 106, 0.15); }
 
         .landing-page .form-feedback {
           font-size: 0.85rem;

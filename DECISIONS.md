@@ -72,6 +72,7 @@ Running log of all decisions, directions, and open questions so nothing gets los
 
 | Feature | Detail | Priority |
 |---------|--------|----------|
+| **Video messages from guests** | Guests record 30-60s video messages for the couple via browser MediaRecorder API. Premium upsell feature ($29-49 add-on or bundled in higher tier). Supabase Storage for video files, cap file size to control costs. Natural extension of guest book. | High |
 | **Thank you card generator** | Generate printable thank-you cards using uploaded photos. | Medium |
 | **Export to cloud** | Export album to Google Photos, iCloud, Dropbox. | Low |
 | **Timeline view** | Photos organized by time of day (ceremony, cocktails, reception, etc.). | Low |
@@ -84,6 +85,8 @@ Running log of all decisions, directions, and open questions so nothing gets los
 |----------|--------|------|
 | **Stay focused on photos** | Rejected expanding into "all-in-one wedding app" (color palette, seating charts, etc.). First Look's strength is focus: private photo sharing, done well. Color palette tools etc. could be a free lead-gen tool later, but not in the core product. | 2026-04-05 |
 | **Landing page integrated into React app** | Moved landing page from standalone HTML into a React component (`LandingPage.jsx`). `/` shows landing page, `/dashboard` shows authenticated app. One Vercel project deploys everything. | 2026-04-05 |
+| **Use existing Stripe account** | No need for a separate Stripe account. Create a Product + $99 Price under existing account. Separate accounts only needed if First Look becomes its own legal entity. | 2026-04-09 |
+| **Video messages = premium upsell** | Guest video messages (30-60s, browser-recorded) planned as first premium feature. Upsell via add-on or higher pricing tier. Builds on existing guest book UX. Ship core product first, add video post-launch. | 2026-04-09 |
 
 ## Open Questions
 

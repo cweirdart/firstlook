@@ -246,11 +246,11 @@ const adminStyles = `
     background: white;
     padding: 48px 40px;
     border-radius: 12px;
-    border: 1px solid var(--border);
+    border: 1.5px solid #D4C8BA;
     max-width: 380px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 4px 24px rgba(61, 53, 48, 0.06);
+    box-shadow: 0 8px 32px rgba(61, 53, 48, 0.12);
   }
 
   .admin-container {
@@ -288,15 +288,18 @@ const adminStyles = `
   .admin-input {
     width: 100%;
     padding: 14px 16px;
-    border: 1.5px solid var(--border);
+    border: 1.5px solid #C4B5A5;
     border-radius: 6px;
     font-family: var(--font-body);
     font-size: 0.95rem;
     margin-bottom: 12px;
     text-align: center;
+    color: var(--text-primary);
+    background: #FEFEFE;
   }
 
-  .admin-input:focus { outline: none; border-color: var(--accent); }
+  .admin-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(184, 151, 106, 0.15); }
+  .admin-input::placeholder { color: #B0A498; }
 
   .admin-btn {
     padding: 12px 24px;
@@ -341,8 +344,9 @@ const adminStyles = `
     background: white;
     padding: 24px;
     border-radius: 10px;
-    border: 1px solid var(--border);
+    border: 1.5px solid #D4C8BA;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(61, 53, 48, 0.06);
   }
 
   .stat-number {
@@ -359,8 +363,9 @@ const adminStyles = `
   .admin-table-wrapper {
     background: white;
     border-radius: 10px;
-    border: 1px solid var(--border);
+    border: 1.5px solid #D4C8BA;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(61, 53, 48, 0.06);
   }
 
   .admin-table {

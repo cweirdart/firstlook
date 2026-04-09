@@ -109,8 +109,8 @@ const Checkout = () => {
           padding: 48px 40px;
           max-width: 480px;
           width: 100%;
-          box-shadow: 0 4px 24px rgba(61, 53, 48, 0.08);
-          border: 1px solid var(--border);
+          box-shadow: 0 8px 32px rgba(61, 53, 48, 0.12);
+          border: 1.5px solid #D4C8BA;
         }
 
         .checkout-logo {
@@ -188,19 +188,22 @@ const Checkout = () => {
         .checkout-input {
           width: 100%;
           padding: 14px 16px;
-          border: 1.5px solid var(--border);
+          border: 1.5px solid #C4B5A5;
           border-radius: 6px;
           font-family: var(--font-body);
           font-size: 0.95rem;
           color: var(--text-primary);
-          background: white;
-          transition: border-color 0.2s ease;
+          background: #FEFEFE;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
           margin-bottom: 12px;
         }
+
+        .checkout-input::placeholder { color: #B0A498; }
 
         .checkout-input:focus {
           outline: none;
           border-color: var(--accent);
+          box-shadow: 0 0 0 3px rgba(184, 151, 106, 0.15);
         }
 
         .checkout-btn {
