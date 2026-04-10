@@ -530,7 +530,7 @@ export default function Upload() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(110px, 45vw), 1fr))',
                 gap: '12px',
                 marginBottom: '40px',
               }}
@@ -665,7 +665,7 @@ export default function Upload() {
       >
         <h1
           style={{
-            fontSize: '42px',
+            fontSize: 'clamp(24px, 6vw, 42px)',
             fontFamily: 'var(--font-display)',
             fontWeight: 400,
             color: 'var(--text-primary)',

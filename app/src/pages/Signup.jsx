@@ -158,11 +158,11 @@ const labelStyle = {
 
 const inputStyle = {
   width: '100%',
-  padding: '12px 14px',
-  border: '1px solid var(--border)',
+  padding: '14px 14px',
+  border: '1.5px solid #C4B5A5',
   borderRadius: '6px',
   fontFamily: 'var(--font-body)',
-  fontSize: '14px',
+  fontSize: '16px',
   color: 'var(--text-primary)',
   backgroundColor: 'var(--bg-primary)',
   boxSizing: 'border-box',

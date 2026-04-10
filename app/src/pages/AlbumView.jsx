@@ -694,7 +694,7 @@ export default function AlbumView() {
             Share With Guests
           </h3>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginBottom: '24px' }}>
+          <div className="share-grid">
             {/* Guest View Section */}
             <div>
               <h4
@@ -1387,6 +1387,18 @@ export default function AlbumView() {
         <style>{`
           .photo-grid-item:hover .photo-overlay {
             opacity: 1 !important;
+          }
+          .share-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 24px;
+          }
+          @media (max-width: 768px) {
+            .share-grid {
+              grid-template-columns: 1fr;
+              gap: 20px;
+            }
           }
         `}</style>
 

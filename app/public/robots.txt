@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /album/
+Disallow: /upload/
+Disallow: /share/
+Disallow: /tv/
+
+Sitemap: https://firstlook.love/sitemap.xml

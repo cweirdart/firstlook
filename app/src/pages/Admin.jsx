@@ -364,7 +364,8 @@ const adminStyles = `
     background: white;
     border-radius: 10px;
     border: 1.5px solid #D4C8BA;
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     box-shadow: 0 2px 8px rgba(61, 53, 48, 0.06);
   }
 
@@ -396,6 +397,9 @@ const adminStyles = `
   @media (max-width: 640px) {
     .admin-stats { grid-template-columns: 1fr; }
     .admin-header { flex-direction: column; }
+    .admin-table { font-size: 0.8rem; }
+    .admin-table th, .admin-table td { padding: 10px 10px; white-space: nowrap; }
+    .admin-table-wrapper { margin: 0 -4px; }
   }
 `;
 

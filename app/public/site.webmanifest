@@ -1,0 +1,16 @@
+{
+  "name": "First Look — Wedding Photo Sharing",
+  "short_name": "First Look",
+  "description": "Private photo sharing for your wedding. Guests scan a QR code, upload photos, no apps needed.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF9F6",
+  "theme_color": "#B8976A",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
