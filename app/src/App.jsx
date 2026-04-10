@@ -28,14 +28,24 @@ const PageLoader = () => (
   <div style={{
     minHeight: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     background: '#FBF9F6',
     fontFamily: "'Cormorant Garamond', Georgia, serif",
-    fontSize: '1.2rem',
     color: '#9C8F87',
+    gap: '16px',
   }}>
-    Loading...
+    <div style={{
+      width: '32px',
+      height: '32px',
+      border: '2px solid #E8DFD5',
+      borderTopColor: '#B8976A',
+      borderRadius: '50%',
+      animation: 'spin 0.8s linear infinite',
+    }} />
+    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    <span style={{ fontSize: '1rem' }}>First Look</span>
   </div>
 )
 

@@ -18,7 +18,7 @@ const TermsOfService = () => {
           --text-secondary: #6B5E56;
           --text-muted: #9C8F87;
           --border: #D4C8BA;
-          --font-display: 'Cormorant Garabond', Georgia, serif;
+          --font-display: 'Cormorant Garamond', Georgia, serif;
           --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
           min-height: 100vh;
