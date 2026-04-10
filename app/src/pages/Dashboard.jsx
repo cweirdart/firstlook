@@ -1,14 +1,38 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppState } from '../context/AppContext'
 import { useState, useEffect } from 'react'
 
 export default function Dashboard() {
   const { albums, loading } = useAppState()
   const [mounted, setMounted] = useState(false)
+  const [copiedId, setCopiedId] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const copyShareLink = (e, album) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const url = `${window.location.origin}/upload/${album.shareCode}`
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(album.id)
+      setTimeout(() => setCopiedId(null), 2000)
+    })
+  }
+
+  const openSlideshow = (e, albumId) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigate(`/album/${albumId}/slideshow`)
+  }
+
+  const openTV = (e, albumId) => {
+    e.preventDefault()
+    e.stopPropagation()
+    window.open(`/tv/${albumId}`, '_blank')
+  }
 
   if (loading) {
     return (
@@ -190,6 +214,56 @@ export default function Dashboard() {
                     })}
                   </p>
                 )}
+
+                {/* Quick Actions */}
+                <div style={{
+                  display: 'flex',
+                  gap: '6px',
+                  marginTop: '12px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid var(--border)',
+                }}>
+                  <button
+                    onClick={(e) => copyShareLink(e, album)}
+                    title="Copy guest upload link"
+                    style={quickActionStyle}
+                  >
+                    {copiedId === album.id ? (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" style={{ width: '14px', height: '14px' }}>
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '14px', height: '14px' }}>
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                      </svg>
+                    )}
+                    <span style={{ fontSize: '11px' }}>{copiedId === album.id ? 'Copied!' : 'Share'}</span>
+                  </button>
+
+                  <button
+                    onClick={(e) => openSlideshow(e, album.id)}
+                    title="Open slideshow"
+                    style={quickActionStyle}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '14px', height: '14px' }}>
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    <span style={{ fontSize: '11px' }}>Slideshow</span>
+                  </button>
+
+                  <button
+                    onClick={(e) => openTV(e, album.id)}
+                    title="Open TV display"
+                    style={quickActionStyle}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '14px', height: '14px' }}>
+                      <rect x="2" y="7" width="20" height="15" rx="2" ry="2" />
+                      <polyline points="17 2 12 7 7 2" />
+                    </svg>
+                    <span style={{ fontSize: '11px' }}>TV</span>
+                  </button>
+                </div>
               </div>
             </Link>
           ))}
@@ -274,4 +348,19 @@ export default function Dashboard() {
       `}</style>
     </div>
   )
+}
+
+const quickActionStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  padding: '5px 10px',
+  borderRadius: '6px',
+  border: '1px solid var(--border)',
+  background: 'var(--bg-primary)',
+  color: 'var(--text-secondary)',
+  fontFamily: 'var(--font-body)',
+  cursor: 'pointer',
+  transition: 'all 0.15s ease',
+  whiteSpace: 'nowrap',
 }

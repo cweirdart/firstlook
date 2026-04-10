@@ -54,23 +54,21 @@ export default function TVDisplay() {
     load()
   }, [id])
 
-  // Poll for new photos every 8 seconds
+  // Realtime subscription for new photos (replaces polling)
   useEffect(() => {
-    const poll = window.setInterval(async () => {
-      try {
-        const p = await storage.getPhotosByAlbum(id)
-        const visible = p.filter(ph => ph.status !== 'rejected' && ph.status !== 'pending')
-        const final = visible.length > 0 ? visible : p.filter(ph => ph.status !== 'rejected')
-        if (final.length > previousCount.current) {
-          setPhotos(final)
-          setPhotoCount(final.length)
-          setNewPhotoFlash(true)
-          setTimeout(() => setNewPhotoFlash(false), 3000)
-          previousCount.current = final.length
-        }
-      } catch (err) { /* silent */ }
-    }, 8000)
-    return () => window.clearInterval(poll)
+    const unsubscribe = storage.subscribeToPhotos(id, (newPhoto) => {
+      if (newPhoto.status !== 'rejected' && newPhoto.status !== 'pending') {
+        setPhotos(prev => {
+          if (prev.find(p => p.id === newPhoto.id)) return prev
+          return [...prev, newPhoto]
+        })
+        setPhotoCount(prev => prev + 1)
+        previousCount.current += 1
+        setNewPhotoFlash(true)
+        setTimeout(() => setNewPhotoFlash(false), 3000)
+      }
+    })
+    return unsubscribe
   }, [id])
 
   // Auto-advance every 6 seconds

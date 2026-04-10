@@ -54,24 +54,20 @@ export default function Slideshow() {
     load()
   }, [id])
 
-  // Poll for new photos every 10 seconds
+  // Realtime subscription for new photos (replaces polling)
   useEffect(() => {
-    const pollInterval = window.setInterval(async () => {
-      try {
-        const p = await storage.getPhotosByAlbum(id)
-        const visible = p.filter(photo => photo.status !== 'rejected' && photo.status !== 'pending')
-        const newPhotos = visible.length > 0 ? visible : p.filter(photo => photo.status !== 'rejected')
-        if (newPhotos.length > previousPhotoCount.current) {
-          setPhotos(newPhotos)
-          setShowNewBadge(true)
-          setTimeout(() => setShowNewBadge(false), 3000)
-          previousPhotoCount.current = newPhotos.length
-        }
-      } catch (err) {
-        // Silently fail
+    const unsubscribe = storage.subscribeToPhotos(id, (newPhoto) => {
+      if (newPhoto.status !== 'rejected' && newPhoto.status !== 'pending') {
+        setPhotos(prev => {
+          if (prev.find(p => p.id === newPhoto.id)) return prev
+          return [...prev, newPhoto]
+        })
+        previousPhotoCount.current += 1
+        setShowNewBadge(true)
+        setTimeout(() => setShowNewBadge(false), 3000)
       }
-    }, 10000)
-    return () => window.clearInterval(pollInterval)
+    })
+    return unsubscribe
   }, [id])
 
   // Auto-advance
