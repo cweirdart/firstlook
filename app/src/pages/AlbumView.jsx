@@ -1405,6 +1405,9 @@ export default function AlbumView() {
         {/* Guest Book Messages */}
         <GuestBook albumId={albumId} />
 
+        {/* Video Messages */}
+        <VideoMessages albumId={albumId} />
+
         <input
           ref={fileInputRef}
           type="file"
@@ -1800,6 +1803,151 @@ function GuestBook({ albumId }) {
           }}
         >
           {expanded ? 'Show less' : `Show all ${messages.length} messages`}
+        </button>
+      )}
+    </div>
+  )
+}
+
+
+// ── Video Messages Component ──────────────────────────────
+
+function VideoMessages({ albumId }) {
+  const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [expanded, setExpanded] = useState(false)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const vids = await storage.getVideoMessagesByAlbum(albumId)
+        setVideos(vids)
+      } catch (err) {
+        console.error('Failed to load video messages:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [albumId])
+
+  const handleDelete = async (video) => {
+    await storage.deleteVideoMessage(video.id, video.storagePath)
+    setVideos(prev => prev.filter(v => v.id !== video.id))
+  }
+
+  const formatSize = (bytes) => {
+    if (!bytes) return ''
+    const mb = bytes / (1024 * 1024)
+    return mb >= 1 ? `${mb.toFixed(1)}MB` : `${(bytes / 1024).toFixed(0)}KB`
+  }
+
+  if (loading || videos.length === 0) return null
+
+  const visibleVideos = expanded ? videos : videos.slice(0, 3)
+
+  return (
+    <div style={{
+      marginTop: '32px',
+      marginBottom: '32px',
+      padding: '28px',
+      backgroundColor: 'var(--bg-blush)',
+      border: '1px solid var(--border)',
+      borderRadius: 'var(--radius-lg)',
+    }}>
+      <h3 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '24px',
+        fontWeight: 400,
+        color: 'var(--text-primary)',
+        marginBottom: '20px',
+      }}>
+        Video Messages
+        <span style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '13px',
+          color: 'var(--text-muted)',
+          fontWeight: 400,
+          marginLeft: '12px',
+        }}>
+          {videos.length} video{videos.length !== 1 ? 's' : ''}
+        </span>
+      </h3>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {visibleVideos.map(video => (
+          <div
+            key={video.id}
+            style={{
+              padding: '16px 20px',
+              backgroundColor: 'var(--bg-primary)',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border)',
+              position: 'relative',
+            }}
+          >
+            <video
+              src={video.videoUrl}
+              controls
+              preload="metadata"
+              playsInline
+              style={{
+                width: '100%',
+                maxHeight: '360px',
+                borderRadius: '8px',
+                backgroundColor: '#1a1a1a',
+                marginBottom: '10px',
+              }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                color: 'var(--text-muted)',
+                margin: 0,
+              }}>
+                {video.guestName} · {new Date(video.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {video.fileSize ? ` · ${formatSize(video.fileSize)}` : ''}
+              </p>
+              <button
+                onClick={() => handleDelete(video)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  fontSize: '11px',
+                  fontFamily: 'var(--font-body)',
+                  opacity: 0.5,
+                  transition: 'opacity 0.15s ease',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '0.5'}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {videos.length > 3 && (
+        <button
+          onClick={() => setExpanded(prev => !prev)}
+          style={{
+            display: 'block',
+            margin: '16px auto 0',
+            background: 'none',
+            border: 'none',
+            color: 'var(--accent-dark)',
+            fontFamily: 'var(--font-body)',
+            fontSize: '13px',
+            fontWeight: 500,
+            cursor: 'pointer',
+            textDecoration: 'underline',
+          }}
+        >
+          {expanded ? 'Show less' : `Show all ${videos.length} videos`}
         </button>
       )}
     </div>
