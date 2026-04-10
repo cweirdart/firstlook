@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import * as storage from '../services/storage'
 import { stripMetadata, readMetadata } from '../utils/exif'
 import { generateId } from '../utils/id'
 import { hashPassword } from '../utils/crypto'
+
+const VideoRecorder = lazy(() => import('../components/VideoRecorder'))
 
 async function findAlbumByShareCode(code) {
   const albums = await storage.getAlbums()
@@ -64,6 +66,9 @@ export default function Upload() {
   const [strippedMetadata, setStrippedMetadata] = useState([])
   const [guestName, setGuestName] = useState('')
   const [guestMessage, setGuestMessage] = useState('')
+  const [showVideoRecorder, setShowVideoRecorder] = useState(false)
+  const [videoSent, setVideoSent] = useState(false)
+  const [videoUploading, setVideoUploading] = useState(false)
   const dragRef = useRef(null)
   const fileInputRef = useRef(null)
   const cameraInputRef = useRef(null)
@@ -1129,6 +1134,120 @@ export default function Upload() {
             Upload {files.length > 0 ? files.length : ''}
             {files.length === 1 ? ' Photo' : files.length > 1 ? ' Photos' : ''}
           </button>
+        )}
+
+        {/* Video Message Section */}
+        {uploadState !== 'uploading' && !videoUploading && (
+          <div style={{
+            marginTop: '24px',
+            paddingTop: '24px',
+            borderTop: '1px solid var(--border)',
+          }}>
+            {!showVideoRecorder && !videoSent && (
+              <button
+                onClick={() => setShowVideoRecorder(true)}
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  background: 'var(--bg-blush)',
+                  border: '1.5px solid var(--border)',
+                  borderRadius: 'var(--radius-md)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '14px',
+                  color: 'var(--text-primary)',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.background = 'var(--bg-secondary)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.background = 'var(--bg-blush)'
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+                Record a Video Message for the Couple
+              </button>
+            )}
+
+            {showVideoRecorder && (
+              <Suspense fallback={<div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>Loading camera...</div>}>
+                <VideoRecorder
+                  onVideoReady={async (blob) => {
+                    setVideoUploading(true)
+                    setShowVideoRecorder(false)
+                    try {
+                      await storage.saveVideoMessage({
+                        id: generateId(),
+                        albumId: album.id,
+                        guestName: guestName.trim() || 'A Guest',
+                        videoBlob: blob,
+                      })
+                      setVideoSent(true)
+                    } catch (err) {
+                      console.error('Video upload error:', err)
+                      alert('Failed to upload video. Please try again.')
+                      setShowVideoRecorder(true)
+                    } finally {
+                      setVideoUploading(false)
+                    }
+                  }}
+                  onCancel={() => setShowVideoRecorder(false)}
+                />
+              </Suspense>
+            )}
+
+            {videoUploading && (
+              <div style={{
+                textAlign: 'center',
+                padding: '24px',
+                background: 'var(--bg-blush)',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border)',
+              }}>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  border: '2px solid var(--border)',
+                  borderTopColor: 'var(--accent)',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite',
+                  margin: '0 auto 12px',
+                }} />
+                <p style={{ fontSize: '14px', color: 'var(--text-primary)', margin: 0 }}>
+                  Uploading your video message...
+                </p>
+              </div>
+            )}
+
+            {videoSent && (
+              <div style={{
+                textAlign: 'center',
+                padding: '20px',
+                background: 'var(--bg-blush)',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border)',
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: 'var(--accent-rose, #B8976A)',
+                  fontWeight: 500,
+                  margin: 0,
+                }}>
+                  Video message sent! The couple will love it.
+                </p>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Error State */}

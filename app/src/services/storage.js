@@ -282,6 +282,78 @@ export async function deleteMessage(id) {
 }
 
 
+// ── Video Messages ─────────────────────────────────────────
+
+export async function getVideoMessagesByAlbum(albumId) {
+  if (isSupabaseConfigured()) {
+    const { data, error } = await supabase
+      .from('video_messages')
+      .select('*')
+      .eq('album_id', albumId)
+      .order('created_at', { ascending: false })
+    if (error) throw error
+    return (data || []).map(mapVideoMessageFromDB)
+  }
+  // Local fallback — no video support in local mode
+  return []
+}
+
+export async function saveVideoMessage({ id, albumId, guestName, videoBlob }) {
+  if (isSupabaseConfigured()) {
+    // Upload video file to Supabase Storage
+    const ext = videoBlob.type.includes('mp4') ? 'mp4' : 'webm'
+    const storagePath = `${albumId}/${id}.${ext}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('video-messages')
+      .upload(storagePath, videoBlob, {
+        contentType: videoBlob.type,
+        cacheControl: '3600',
+      })
+
+    if (uploadError) throw uploadError
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('video-messages')
+      .getPublicUrl(storagePath)
+
+    // Save metadata to database
+    const { data, error } = await supabase
+      .from('video_messages')
+      .insert([{
+        id,
+        album_id: albumId,
+        guest_name: guestName || 'A Guest',
+        storage_path: storagePath,
+        video_url: urlData.publicUrl,
+        file_size: videoBlob.size,
+        mime_type: videoBlob.type,
+      }])
+      .select()
+      .single()
+
+    if (error) throw error
+    return mapVideoMessageFromDB(data)
+  }
+  // Local fallback — not supported for video
+  console.warn('Video messages require Supabase to be configured')
+  return null
+}
+
+export async function deleteVideoMessage(id, storagePath) {
+  if (isSupabaseConfigured()) {
+    // Delete file from storage
+    if (storagePath) {
+      await supabase.storage.from('video-messages').remove([storagePath])
+    }
+    // Delete metadata from database
+    const { error } = await supabase.from('video_messages').delete().eq('id', id)
+    if (error) throw error
+  }
+}
+
+
 // ── Realtime Subscriptions ──────────────────────────────────
 
 /**
@@ -433,6 +505,19 @@ function mapMessageFromDB(row) {
     albumId: row.album_id,
     guestName: row.guest_name,
     text: row.text,
+    createdAt: row.created_at,
+  }
+}
+
+function mapVideoMessageFromDB(row) {
+  return {
+    id: row.id,
+    albumId: row.album_id,
+    guestName: row.guest_name,
+    storagePath: row.storage_path,
+    videoUrl: row.video_url,
+    fileSize: row.file_size,
+    mimeType: row.mime_type,
     createdAt: row.created_at,
   }
 }
