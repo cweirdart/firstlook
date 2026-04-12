@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * SEO Landing Page — "How It Works"
@@ -14,6 +15,10 @@ import { Link } from 'react-router-dom'
  * Structured with FAQ schema for Google featured snippets.
  */
 export default function HowItWorks() {
+  usePageMeta(
+    'How Wedding QR Code Photo Sharing Works',
+    'Learn how First Look lets wedding guests share photos by scanning a QR code. No app download needed. Photos appear on a live slideshow during the reception. $99 one-time, unlimited guests.'
+  )
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>

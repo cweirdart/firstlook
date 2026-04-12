@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * SEO page targeting wedding photographers.
@@ -13,6 +14,10 @@ import { Link } from 'react-router-dom'
  * - "QR code photo sharing for wedding photographers"
  */
 export default function ForPhotographers() {
+  usePageMeta(
+    'First Look for Wedding Photographers',
+    'How guest phone photos complement professional wedding photography. Recommend First Look to your clients or add it to your packages. $99 per event, zero effort for the photographer.'
+  )
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * SEO page targeting wedding planners, coordinators, and venue managers.
@@ -12,6 +13,10 @@ import { Link } from 'react-router-dom'
  * - "wedding coordinator photo sharing setup"
  */
 export default function ForPlanners() {
+  usePageMeta(
+    'First Look for Wedding Planners & Coordinators',
+    'Why wedding planners recommend First Look over photo booths. $99 per event, 5-minute setup, works with any venue. Comparison grid, setup instructions, and FAQ for wedding professionals.'
+  )
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>

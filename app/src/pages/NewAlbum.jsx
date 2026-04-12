@@ -16,6 +16,7 @@ export default function NewAlbum() {
     password: '',
     protectWithPassword: false,
     coupleType: 'bride-groom',
+    weddingDate: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
@@ -69,6 +70,7 @@ export default function NewAlbum() {
         shareCode,
         passwordHash,
         coupleType: formData.coupleType,
+        weddingDate: formData.weddingDate || null,
         photoCount: 0,
         createdAt: new Date().toISOString(),
         coverPhotoUrl: null,
@@ -186,6 +188,25 @@ export default function NewAlbum() {
             </div>
             <p style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
               This customizes language throughout your album (e.g., "best man" vs "best woman")
+            </p>
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label htmlFor="weddingDate" className="label">
+              Wedding Date
+            </label>
+            <input
+              id="weddingDate"
+              type="date"
+              name="weddingDate"
+              className="input"
+              value={formData.weddingDate}
+              onChange={handleInputChange}
+              disabled={isSubmitting}
+              style={{ maxWidth: '220px' }}
+            />
+            <p style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
+              Optional — helps us send you a setup reminder before your big day
             </p>
           </div>
 

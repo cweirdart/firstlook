@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * SEO page targeting wedding DJs and MCs.
@@ -14,6 +15,10 @@ import { Link } from 'react-router-dom'
  * - "wedding DJ upsell photo booth alternative"
  */
 export default function ForDJs() {
+  usePageMeta(
+    'Live Photo Slideshow for Wedding DJs',
+    'Add a live guest photo slideshow to your DJ setup in 2 minutes. Better than a photo booth — $99 cost, mark up to $150-250. Runs on your existing screen, hands-free all night.'
+  )
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>

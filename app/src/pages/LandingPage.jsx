@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { usePageMeta } from '../utils/pageMeta';
 
 const LandingPage = () => {
+  usePageMeta(
+    null, // Use default title for landing page
+    'First Look — the simplest way to collect and share wedding photos. Guests scan a QR code, upload from their phone, and photos appear on a live slideshow. $99 one-time, unlimited guests. No app download.'
+  );
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [feedback, setFeedback] = useState('');

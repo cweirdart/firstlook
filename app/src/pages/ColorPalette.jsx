@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * Wedding Color Palette Generator — a free planning tool.
@@ -78,6 +79,10 @@ const CURATED = [
 const ALL_TAGS = [...new Set(CURATED.flatMap(p => p.tags))].sort()
 
 export default function ColorPalette() {
+  usePageMeta(
+    'Wedding Color Palette Generator',
+    'Free wedding color palette generator. Browse 12 curated palettes or build your own from a single color. Classic, boho, romantic, and seasonal themes. Copy hex codes instantly.'
+  )
   const [selectedPalette, setSelectedPalette] = useState(null)
   const [customColors, setCustomColors] = useState(['#B8976A', '#A8B5A0', '#F5F0EB', '#6B5E54', '#D4C8BA'])
   const [activeTag, setActiveTag] = useState(null)

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { usePageMeta } from '../utils/pageMeta'
 
 /**
  * SEO page targeting the wedding party — best man, maid of honor,
@@ -16,6 +17,10 @@ import { Link } from 'react-router-dom'
  * - "wedding day setup checklist"
  */
 export default function ForWeddingParty() {
+  usePageMeta(
+    'Wedding Photo Slideshow Setup Guide for Best Man & Maid of Honor',
+    'Step-by-step instructions for setting up the First Look live photo slideshow at the wedding reception. Best man, maid of honor, bridesmaids — 5 minute setup, runs hands-free all night.'
+  )
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>
