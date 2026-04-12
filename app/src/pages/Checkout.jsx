@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { trackEvent } from '../utils/analytics';
+import { usePageMeta } from '../utils/pageMeta';
 
 /**
  * Checkout page — handles the $99 one-time payment flow via Stripe.
@@ -20,6 +22,7 @@ const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 const PRICE_AMOUNT = 99;
 
 const Checkout = () => {
+  usePageMeta('Get First Look — $99', 'One-time payment for unlimited wedding photo sharing. QR code uploads, live slideshow, guest book, video messages. No subscription.');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [email, setEmail] = useState('');
@@ -32,6 +35,7 @@ const Checkout = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    trackEvent('Checkout Started', { plan });
 
     try {
       if (!STRIPE_PUBLISHABLE_KEY) {

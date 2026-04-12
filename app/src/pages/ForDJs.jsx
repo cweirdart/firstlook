@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../utils/pageMeta'
+import '../styles/seoPages.css'
 
 /**
  * SEO page targeting wedding DJs and MCs.
@@ -95,7 +96,7 @@ export default function ForDJs() {
         <section style={sectionStyle}>
           <h2 style={h2Style}>How to Add It to Your DJ Packages</h2>
 
-          <div style={comparisonStyle}>
+          <div className="seo-comparison-grid" style={comparisonStyle}>
             <div style={compColStyle}>
               <h3 style={{ ...h3Style, color: '#9C8F87', marginBottom: '12px' }}>Your Current Package</h3>
               <p style={{ ...bodyStyle, margin: 0 }}>
@@ -118,7 +119,7 @@ export default function ForDJs() {
         {/* vs photo booth */}
         <section style={sectionStyle}>
           <h2 style={h2Style}>First Look vs. Photo Booth (for DJs)</h2>
-          <div style={comparisonStyle}>
+          <div className="seo-comparison-grid" style={comparisonStyle}>
             <div style={compColStyle}>
               <h3 style={{ ...h3Style, color: '#B8976A', marginBottom: '16px' }}>First Look</h3>
               {[
@@ -253,6 +254,7 @@ const h3Style = { fontFamily: "'DM Sans', sans-serif", fontSize: '15px', fontWei
 const bodyStyle = { fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#6B5E54', lineHeight: 1.7, marginBottom: '12px' }
 const featureCardStyle = { padding: '20px', background: 'white', border: '1px solid #D4C8BA', borderRadius: '10px', marginBottom: '12px' }
 const tipBoxStyle = { marginTop: '16px', padding: '14px 16px', background: '#FDF8F0', border: '1px solid #E8DFD5', borderRadius: '8px', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#6B5E54', lineHeight: 1.5 }
+const comparisonClassName = 'seo-comparison-grid'
 const comparisonStyle = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }
 const compColStyle = { padding: '20px', background: 'white', border: '1px solid #D4C8BA', borderRadius: '10px' }
 const compItemStyle = { fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#3D3530', margin: '0 0 8px', display: 'flex', alignItems: 'center' }

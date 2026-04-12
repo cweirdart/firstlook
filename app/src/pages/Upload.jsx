@@ -4,6 +4,8 @@ import * as storage from '../services/storage'
 import { stripMetadata, readMetadata } from '../utils/exif'
 import { generateId } from '../utils/id'
 import { hashPassword } from '../utils/crypto'
+import { compressImage } from '../utils/imageCompression'
+import { trackEvent } from '../utils/analytics'
 
 const VideoRecorder = lazy(() => import('../components/VideoRecorder'))
 
@@ -241,8 +243,11 @@ export default function Upload() {
           dateRemoved: !!(fileMeta.tags.DateTimeOriginal || fileMeta.tags.DateTime),
         })
 
+        // Compress image (resize + JPEG quality reduction)
+        const compressedFile = await compressImage(file)
+
         // Strip metadata
-        const cleanFile = await stripMetadata(file)
+        const cleanFile = await stripMetadata(compressedFile)
 
         // Create thumbnail
         const thumbnailUrl = await createThumbnail(cleanFile)
@@ -282,6 +287,7 @@ export default function Upload() {
         await storage.saveMessage(message)
       }
 
+      trackEvent('Photo Uploaded', { count: files.length, source: 'guest' })
       setStrippedMetadata(metadata)
       setUploadedPhotos(uploaded)
       setUploadState('success')

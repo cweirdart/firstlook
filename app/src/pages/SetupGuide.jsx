@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import * as storage from '../services/storage'
 import { getHelperList } from '../utils/coupleType'
+import { trackEvent } from '../utils/analytics'
 
 /**
  * Wedding Day Setup Guide — designed to be shared with the best man,
@@ -45,6 +46,7 @@ export default function SetupGuide() {
   }
 
   const shareSetupGuide = () => {
+    trackEvent('Setup Guide Shared')
     const text = `Hey! Here's everything you need to set up the photo slideshow for the wedding:\n\n${setupUrl}\n\nThe guide has all the links and steps. Thank you!`
     if (navigator.share) {
       navigator.share({ title: 'Wedding Photo Setup Guide', text }).catch(() => {

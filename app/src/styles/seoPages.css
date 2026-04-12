@@ -1,0 +1,10 @@
+/**
+ * Shared responsive styles for SEO/content pages.
+ * Imported by pages that have comparison grids and content layouts.
+ */
+
+@media (max-width: 640px) {
+  .seo-comparison-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

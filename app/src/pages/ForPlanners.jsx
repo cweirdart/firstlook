@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../utils/pageMeta'
+import '../styles/seoPages.css'
 
 /**
  * SEO page targeting wedding planners, coordinators, and venue managers.
@@ -67,7 +68,7 @@ export default function ForPlanners() {
         {/* Comparison */}
         <section style={sectionStyle}>
           <h2 style={h2Style}>First Look vs. Photo Booth</h2>
-          <div style={comparisonStyle}>
+          <div className="seo-comparison-grid" style={comparisonStyle}>
             <div style={compColStyle}>
               <h3 style={{ ...h3Style, color: '#B8976A', marginBottom: '16px' }}>First Look</h3>
               {[

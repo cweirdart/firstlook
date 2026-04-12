@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from './components/AppLayout'
+import OfflineBanner from './components/OfflineBanner'
 
 // Eagerly loaded — first paint
 import LandingPage from './pages/LandingPage'
@@ -59,6 +60,8 @@ const PageLoader = () => (
 
 function App() {
   return (
+    <>
+    <OfflineBanner />
     <Suspense fallback={<PageLoader />}>
       <Routes>
         {/* Landing page (marketing) */}
@@ -109,6 +112,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
+    </>
   )
 }
 

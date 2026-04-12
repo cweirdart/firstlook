@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../utils/pageMeta'
+import '../styles/seoPages.css'
 
 /**
  * SEO page targeting wedding photographers.
@@ -84,7 +85,7 @@ export default function ForPhotographers() {
         {/* Professional vs guest photos */}
         <section style={sectionStyle}>
           <h2 style={h2Style}>Professional Photos vs. Guest Photos</h2>
-          <div style={comparisonStyle}>
+          <div className="seo-comparison-grid" style={comparisonStyle}>
             <div style={compColStyle}>
               <h3 style={{ ...h3Style, color: '#B8976A', marginBottom: '16px' }}>Your Professional Photos</h3>
               {[
@@ -209,6 +210,7 @@ const h3Style = { fontFamily: "'DM Sans', sans-serif", fontSize: '15px', fontWei
 const bodyStyle = { fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#6B5E54', lineHeight: 1.7, marginBottom: '12px' }
 const featureCardStyle = { padding: '20px', background: 'white', border: '1px solid #D4C8BA', borderRadius: '10px', marginBottom: '12px' }
 const highlightBoxStyle = { padding: '20px 24px', background: '#FDF8F0', border: '1px solid #E8DFD5', borderRadius: '10px', marginBottom: '16px' }
+// Class added for mobile responsiveness via seoPages.css
 const comparisonStyle = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }
 const compColStyle = { padding: '20px', background: 'white', border: '1px solid #D4C8BA', borderRadius: '10px' }
 const compItemStyle = { fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#3D3530', margin: '0 0 8px', display: 'flex', alignItems: 'center' }

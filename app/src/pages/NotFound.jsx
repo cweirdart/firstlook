@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { usePageMeta } from '../utils/pageMeta';
 
 const NotFound = () => {
+  usePageMeta('Page Not Found', 'This page doesn\'t exist. Browse First Look\'s wedding photo sharing features, guides, and free tools.');
+
   return (
     <div className="not-found-page">
       <style>{`
@@ -69,6 +72,31 @@ const NotFound = () => {
           transform: translateY(-1px);
         }
 
+        .not-found-nav {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+          max-width: 500px;
+          margin-top: 32px;
+        }
+
+        .not-found-nav a {
+          padding: 8px 14px;
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 13px;
+          color: var(--text-secondary);
+          transition: all 0.15s ease;
+          background: white;
+        }
+
+        .not-found-nav a:hover {
+          border-color: var(--accent);
+          color: var(--accent-dark);
+        }
+
         .not-found-divider {
           width: 60px;
           height: 1px;
@@ -80,7 +108,7 @@ const NotFound = () => {
           font-family: var(--font-display);
           font-size: 1rem;
           color: var(--text-muted);
-          margin-top: 48px;
+          margin-top: 16px;
         }
       `}</style>
 
@@ -91,7 +119,21 @@ const NotFound = () => {
         Let's get you back on track.
       </p>
       <Link to="/" className="not-found-link">Back to First Look</Link>
+
       <div className="not-found-divider" />
+
+      <p style={{ color: '#9C8F87', fontSize: '13px', marginBottom: '12px' }}>Or explore:</p>
+      <div className="not-found-nav">
+        <Link to="/how-it-works">How It Works</Link>
+        <Link to="/what-you-need">What You Need</Link>
+        <Link to="/for-planners">For Planners</Link>
+        <Link to="/for-wedding-party">For the Wedding Party</Link>
+        <Link to="/for-photographers">For Photographers</Link>
+        <Link to="/for-djs">For DJs</Link>
+        <Link to="/tools/colors">Color Palette Generator</Link>
+        <Link to="/checkout">Get First Look — $99</Link>
+      </div>
+
       <p className="not-found-logo">First Look</p>
     </div>
   );

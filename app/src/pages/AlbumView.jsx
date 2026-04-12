@@ -6,6 +6,7 @@ import * as storage from '../services/storage'
 import { stripMetadata } from '../utils/exif'
 import { generateId } from '../utils/id'
 import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
+import { compressImage } from '../utils/imageCompression'
 
 export default function AlbumView() {
   const { id: albumId } = useParams()
@@ -283,7 +284,8 @@ export default function AlbumView() {
 
       const uploadPromises = fileArray.map(async (file, index) => {
         try {
-          const cleanedFile = await stripMetadata(file)
+          const compressedFile = await compressImage(file)
+          const cleanedFile = await stripMetadata(compressedFile)
           const [dataUrl, thumbnailUrl] = await Promise.all([
             fileToDataUrl(cleanedFile),
             generateThumbnail(cleanedFile),
@@ -1211,6 +1213,8 @@ export default function AlbumView() {
                   <img
                     src={photo.thumbnailUrl}
                     alt="thumbnail"
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       position: 'absolute',
                       top: 0,

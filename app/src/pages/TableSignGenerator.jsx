@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { getAlbum } from '../services/storage'
+import { trackEvent } from '../utils/analytics'
 
 const SIZES = {
   full: { label: 'Full Page (8.5 × 11")', width: 816, height: 1056, perPage: 1 },
@@ -51,6 +52,7 @@ export default function TableSignGenerator() {
   const uploadUrl = album ? `${window.location.origin}/upload/${album.shareCode}` : ''
 
   function handlePrint() {
+    trackEvent('QR Sign Printed', { size })
     window.print()
   }
 
@@ -638,9 +640,17 @@ export default function TableSignGenerator() {
         @media print {
           .no-print { display: none !important; }
           .print-only { display: block !important; }
-          body { margin: 0; padding: 0; }
+          body { margin: 0; padding: 0; background: white !important; }
           @page { margin: 0; size: letter; }
-          nav { display: none !important; }
+          nav, header, footer, .page-header { display: none !important; }
+          /* Ensure signs fill the page and don't break mid-sign */
+          .sign-preview { break-inside: avoid; page-break-inside: avoid; }
+          /* Remove box shadows and borders that waste ink */
+          * { box-shadow: none !important; }
+          /* Ensure QR codes print at full resolution */
+          svg { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+          /* Background colors for the signs */
+          .sign-preview * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
         }
       `}</style>
     </>

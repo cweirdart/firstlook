@@ -5,6 +5,7 @@ import * as storage from '../services/storage'
 import { generateId, generateShareCode } from '../utils/id'
 import { hashPassword } from '../utils/crypto'
 import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
+import { trackEvent } from '../utils/analytics'
 
 export default function NewAlbum() {
   const navigate = useNavigate()
@@ -77,6 +78,8 @@ export default function NewAlbum() {
       }
 
       await storage.saveAlbum(album)
+
+      trackEvent('Album Created', { coupleType: formData.coupleType, hasDate: !!formData.weddingDate })
 
       dispatch({
         type: 'ADD_ALBUM',

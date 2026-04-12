@@ -119,6 +119,19 @@ Running log of all decisions, directions, and open questions so nothing gets los
 - **robots.txt** — Explicitly allows GPTBot, ChatGPT-User, Claude-Web, Anthropic-AI, PerplexityBot, and Google-Extended. Blocks authenticated routes (dashboard, album, admin).
 - **Couple-type customization** — Album creation now includes a couple-type selector: Bride & Groom, Groom & Bride, Bride & Bride, Groom & Groom, or Custom. Stored on the album as `couple_type`. Used by `coupleType.js` utility to derive role labels (best man, maid of honor, etc.) throughout the app. SetupGuide and AlbumView both use it. Migration: `004_couple_type.sql`.
 
+## Features Built (v7 — April 2026)
+
+- **Dynamic page titles + OG tags** — `usePageMeta()` hook sets unique `<title>`, `<meta description>`, Open Graph, and Twitter Card tags per page. Every content page now has its own SEO-optimized title. Social sharing previews will show correct titles/descriptions.
+- **Dashboard wedding countdown** — If an album has a wedding date set, the dashboard shows a countdown banner: "X days until the wedding." Shows "Today is the big day!" on wedding day. Includes "Open Setup Guide" button in the last 7 days.
+- **Client-side image compression** — `compressImage()` utility resizes photos to 2400px max, compresses to 82% JPEG before upload. Cuts file size by ~80% (5MB iPhone photo → ~300KB). Integrated in both guest Upload page and owner AlbumView upload. Skips GIFs, SVGs, and already-small files.
+- **Error boundary** — `ErrorBoundary` component wraps the entire app. Shows friendly "Something went wrong" page with refresh button instead of white screen on JS errors. Dev mode shows stack trace.
+- **Offline connectivity banner** — `OfflineBanner` component detects lost internet via `navigator.onLine` events. Shows warning banner on disconnect ("No internet connection. Photos will upload once you're back online."), success banner on reconnect.
+- **Image lazy loading** — Album photo grid images use `loading="lazy"` and `decoding="async"` for faster initial page load with large albums.
+- **Improved 404 page** — Now includes navigation links to all content pages for SEO recovery. Keeps users on site instead of bouncing.
+- **Mobile responsive grids** — SEO comparison grids (`ForDJs`, `ForPhotographers`, `ForPlanners`) stack to single column on mobile via `seoPages.css`.
+- **Print-optimized table signs** — Enhanced `@media print` styles: page-break prevention, ink-saving shadow removal, background color preservation for QR signs.
+- **Plausible analytics events** — `trackEvent()` utility fires custom Plausible events at key conversion points: Album Created, Photo Uploaded, Checkout Started, Share Link Copied, Slideshow Opened, TV Display Opened, Setup Guide Shared, QR Sign Printed. Only fires if Plausible script is loaded.
+
 ## Open Questions
 
 - [x] Product name — **First Look** (firstlook.love)

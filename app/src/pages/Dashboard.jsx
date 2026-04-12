@@ -1,8 +1,31 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppState } from '../context/AppContext'
 import { useState, useEffect } from 'react'
+import { usePageMeta } from '../utils/pageMeta'
+import { trackEvent } from '../utils/analytics'
+
+function getCountdown(albums) {
+  if (!albums?.length) return null
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  let nearest = null
+  let nearestAlbum = null
+  for (const a of albums) {
+    if (!a.weddingDate) continue
+    const d = new Date(a.weddingDate + 'T00:00:00')
+    if (isNaN(d.getTime())) continue
+    const diff = Math.ceil((d - now) / (1000 * 60 * 60 * 24))
+    if (diff >= 0 && (nearest === null || diff < nearest)) {
+      nearest = diff
+      nearestAlbum = a
+    }
+  }
+  if (nearest === null) return null
+  return { days: nearest, album: nearestAlbum }
+}
 
 export default function Dashboard() {
+  usePageMeta('Dashboard', 'Manage your First Look wedding photo albums.')
   const { albums, loading } = useAppState()
   const [mounted, setMounted] = useState(false)
   const [copiedId, setCopiedId] = useState(null)
@@ -18,6 +41,7 @@ export default function Dashboard() {
     const url = `${window.location.origin}/upload/${album.shareCode}`
     navigator.clipboard.writeText(url).then(() => {
       setCopiedId(album.id)
+      trackEvent('Share Link Copied', { source: 'dashboard' })
       setTimeout(() => setCopiedId(null), 2000)
     })
   }
@@ -25,12 +49,14 @@ export default function Dashboard() {
   const openSlideshow = (e, albumId) => {
     e.preventDefault()
     e.stopPropagation()
+    trackEvent('Slideshow Opened', { source: 'dashboard' })
     navigate(`/album/${albumId}/slideshow`)
   }
 
   const openTV = (e, albumId) => {
     e.preventDefault()
     e.stopPropagation()
+    trackEvent('TV Display Opened', { source: 'dashboard' })
     window.open(`/tv/${albumId}`, '_blank')
   }
 
@@ -91,6 +117,62 @@ export default function Dashboard() {
           + New Album
         </Link>
       </div>
+
+      {/* Wedding Countdown */}
+      {(() => {
+        const cd = getCountdown(albums)
+        if (!cd) return null
+        const { days, album: cdAlbum } = cd
+        return (
+          <div style={{
+            marginBottom: '28px',
+            padding: '20px 24px',
+            background: days <= 7
+              ? 'linear-gradient(135deg, #FDF3E7 0%, #FCE8D5 100%)'
+              : 'linear-gradient(135deg, #F8F5F0 0%, #F0EBE3 100%)',
+            border: days <= 7 ? '1px solid #E8C9A0' : '1px solid var(--border)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px',
+            flexWrap: 'wrap',
+          }}>
+            <div>
+              <p style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: days === 0 ? '22px' : '18px',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginBottom: '4px',
+              }}>
+                {days === 0
+                  ? 'Today is the big day!'
+                  : days === 1
+                    ? 'Tomorrow is the big day!'
+                    : `${days} days until the wedding`}
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '13px',
+                color: 'var(--text-secondary)',
+                margin: 0,
+              }}>
+                {cdAlbum.name} — {new Date(cdAlbum.weddingDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+            {days <= 7 && days >= 0 && (
+              <Link
+                to={`/album/${cdAlbum.id}/setup`}
+                className="btn btn-primary"
+                style={{ whiteSpace: 'nowrap', fontSize: '13px', padding: '8px 16px' }}
+              >
+                Open Setup Guide
+              </Link>
+            )}
+          </div>
+        )
+      })()}
 
       {/* Albums Grid */}
       {albums && albums.length > 0 ? (
