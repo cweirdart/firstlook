@@ -27,6 +27,7 @@ export default function Slideshow() {
   const [showControls, setShowControls] = useState(true)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showNewBadge, setShowNewBadge] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
   const containerRef = useRef(null)
   const timerRef = useRef(null)
   const controlsTimerRef = useRef(null)
@@ -118,7 +119,11 @@ export default function Slideshow() {
         case 'f':
           toggleFullscreen()
           break
+        case '?':
+          setShowHelp(prev => !prev)
+          break
         case 'Escape':
+          if (showHelp) { setShowHelp(false); break }
           if (isFullscreen) toggleFullscreen()
           break
       }
@@ -451,6 +456,89 @@ export default function Slideshow() {
               }}
             />
           ))}
+        </div>
+      )}
+
+      {/* Keyboard Help Overlay */}
+      {showHelp && (
+        <div
+          onClick={() => setShowHelp(false)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 50,
+            animation: 'fadeIn 0.2s ease',
+          }}
+        >
+          <div onClick={(e) => e.stopPropagation()} style={{
+            backgroundColor: 'rgba(255,255,255,0.08)',
+            borderRadius: '16px',
+            padding: '32px 40px',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            maxWidth: '360px',
+            width: '90%',
+          }}>
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '22px',
+              color: 'white',
+              fontWeight: 400,
+              marginBottom: '24px',
+              textAlign: 'center',
+            }}>
+              Keyboard Shortcuts
+            </h3>
+            {[
+              ['Space / →', 'Next photo'],
+              ['←', 'Previous photo'],
+              ['P', 'Play / Pause'],
+              ['F', 'Toggle fullscreen'],
+              ['?', 'Show this help'],
+              ['Esc', 'Exit fullscreen / close'],
+            ].map(([key, desc]) => (
+              <div key={key} style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '8px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <kbd style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '13px',
+                  color: 'white',
+                  backgroundColor: 'rgba(255,255,255,0.12)',
+                  padding: '3px 10px',
+                  borderRadius: '4px',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                }}>
+                  {key}
+                </kbd>
+                <span style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '13px',
+                  color: 'rgba(255,255,255,0.6)',
+                }}>
+                  {desc}
+                </span>
+              </div>
+            ))}
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '11px',
+              color: 'rgba(255,255,255,0.3)',
+              textAlign: 'center',
+              marginTop: '20px',
+              marginBottom: 0,
+            }}>
+              Click anywhere to close
+            </p>
+          </div>
         </div>
       )}
 

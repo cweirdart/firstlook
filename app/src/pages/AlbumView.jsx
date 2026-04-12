@@ -19,6 +19,7 @@ export default function AlbumView() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [viewMode, setViewMode] = useState('all') // all, pending, favorites
+  const [guestFilter, setGuestFilter] = useState('') // filter by guest name
   const fileInputRef = useRef(null)
   const dragZoneRef = useRef(null)
 
@@ -250,15 +251,19 @@ export default function AlbumView() {
     setPhotos(prev => prev.map(p => p.id === photoId ? updated : p))
   }
 
-  // Filtered photos based on view mode
+  // Filtered photos based on view mode + guest filter
   const filteredPhotos = photos.filter(p => {
     if (viewMode === 'pending') return p.status === 'pending'
     if (viewMode === 'favorites') return p.favorite
     return true
+  }).filter(p => {
+    if (!guestFilter) return true
+    return p.guestName === guestFilter
   })
 
   const pendingCount = photos.filter(p => p.status === 'pending').length
   const favoritesCount = photos.filter(p => p.favorite).length
+  const uniqueGuests = [...new Set(photos.map(p => p.guestName).filter(Boolean))].sort()
 
   // Handle file upload with progress
   const handleFileUpload = useCallback(
@@ -530,6 +535,14 @@ export default function AlbumView() {
               </span>
               <span style={{ fontSize: '20px', color: 'var(--accent)', fontWeight: '500' }}>
                 {photos.length}
+              </span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Guests
+              </span>
+              <span style={{ fontSize: '20px', color: 'var(--accent)', fontWeight: '500' }}>
+                {new Set(photos.map(p => p.guestName).filter(Boolean)).size || '—'}
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -1024,7 +1037,30 @@ export default function AlbumView() {
               ))}
             </div>
 
-            {/* Moderation Toggle + Approve All */}
+            {/* Guest Filter + Moderation */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {uniqueGuests.length > 1 && (
+                <select
+                  value={guestFilter}
+                  onChange={(e) => setGuestFilter(e.target.value)}
+                  style={{
+                    padding: '6px 10px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <option value="">All guests</option>
+                  {uniqueGuests.map(name => (
+                    <option key={name} value={name}>{name}</option>
+                  ))}
+                </select>
+              )}
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {viewMode === 'pending' && pendingCount > 0 && (
                 <button
