@@ -93,7 +93,7 @@ export default function HowItWorks() {
             First Look is built for couples who want to collect every photo from their wedding day without chasing guests afterward. It's also used by wedding coordinators who set it up as part of their venue package, and by the best man, maid of honor, or DJ who's helping with reception setup.
           </p>
           <p style={bodyStyle}>
-            The couple doesn't need to touch the app on their wedding day. They set it up beforehand, hand the setup instructions to a helper, and enjoy their day. After the wedding, they log in and have every guest photo waiting for them.
+            The couple doesn't need to touch the app on their wedding day. They set it up beforehand, send the setup guide to their best man, maid of honor, or DJ, and enjoy their day. After the wedding, they log in and have every guest photo waiting for them.
           </p>
         </section>
 
@@ -134,12 +134,57 @@ export default function HowItWorks() {
               q: 'How is this different from The Guest, WedUploader, or Fotify?',
               a: 'Most wedding photo apps require guests to download a native app from the App Store. First Look works entirely in the browser — zero friction for guests. It also includes a real-time slideshow for your reception, QR code table sign generator, guest book, and video messages all in one tool.',
             },
+            {
+              q: 'I\'m a wedding planner — can I set this up for my clients?',
+              a: 'Absolutely. Many wedding coordinators and planners use First Look as part of their venue package. You or your team sets up the album, prints the QR code table signs, and opens the slideshow URL on a display at the venue. Your clients get the photos automatically. It takes about 5 minutes to set up.',
+            },
+            {
+              q: 'I\'m in the wedding party — how do I set up the slideshow?',
+              a: 'The couple can send you a setup guide link directly from First Look. It tells you exactly what to do: open a URL on the venue TV or any screen, put the QR code signs on the tables, and you\'re done. The slideshow runs itself — you can go enjoy the party.',
+            },
+            {
+              q: 'Can I use First Look for an engagement party, rehearsal dinner, or other event?',
+              a: 'Yes. First Look works for any event where you want guests to share photos via QR code. Engagement parties, bridal showers, rehearsal dinners, anniversaries, birthday parties — any gathering where guests have their phones.',
+            },
+            {
+              q: 'What happens to our photos after the wedding?',
+              a: 'Your photos stay in your private album as long as you need them. You can download everything as a ZIP file at any time. All photos have GPS location and camera metadata automatically stripped for guest privacy.',
+            },
+            {
+              q: 'How many photos can guests upload?',
+              a: 'There\'s no limit. Guests can upload as many photos as they want, and there\'s no limit on the number of guests. Whether you have 20 guests or 500, everyone can upload.',
+            },
           ].map(({ q, a }) => (
             <div key={q} style={faqItemStyle}>
               <h3 style={faqQuestionStyle}>{q}</h3>
               <p style={faqAnswerStyle}>{a}</p>
             </div>
           ))}
+        </section>
+
+        {/* Role-specific pages */}
+        <section style={sectionStyle}>
+          <h2 style={h2Style}>Guides for Everyone Involved</h2>
+          <p style={bodyStyle}>
+            First Look is used by everyone in the wedding — not just the couple. We have specific guides for each role:
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '16px' }}>
+            {[
+              { to: '/for-wedding-party', label: 'For the Best Man, Maid of Honor & Wedding Party', desc: 'Step-by-step setup instructions for whoever is helping on the day' },
+              { to: '/for-planners', label: 'For Wedding Planners & Coordinators', desc: 'Why planners recommend First Look over photo booths' },
+              { to: '/for-photographers', label: 'For Wedding Photographers', desc: 'How guest photos complement professional photography' },
+              { to: '/for-djs', label: 'For Wedding DJs & MCs', desc: 'Add a live photo slideshow to your DJ packages' },
+              { to: '/what-you-need', label: 'What You Need', desc: 'Equipment checklist and recommended display devices' },
+            ].map(link => (
+              <Link key={link.to} to={link.to} style={crossLinkStyle}>
+                <div>
+                  <strong style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: '#3D3530' }}>{link.label}</strong>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: '#9C8F87', margin: '4px 0 0' }}>{link.desc}</p>
+                </div>
+                <span style={{ color: '#B8976A', fontSize: '18px', fontWeight: 300 }}>→</span>
+              </Link>
+            ))}
+          </div>
         </section>
 
         {/* CTA */}
@@ -185,6 +230,22 @@ export default function HowItWorks() {
                   acceptedAnswer: {
                     '@type': 'Answer',
                     text: 'First Look provides a TV display mode that shows guest-uploaded photos in real time. Open the slideshow URL on any screen with a browser — a smart TV, Fire Stick, laptop connected to a projector, or iPad. It auto-advances and runs hands-free all night.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What wedding photo sharing tool should a wedding planner recommend?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'First Look (firstlook.love) is ideal for wedding planners and coordinators. It requires no app download from guests, works via QR code, includes a real-time slideshow for the reception, and takes about 5 minutes to set up. The couple gets a private album with all guest photos. It costs $99 one-time with no guest limits.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How much does wedding photo sharing cost?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'First Look costs $99 one-time for unlimited photos, unlimited guests, a real-time reception slideshow, QR code table signs, guest book, and video messages. There are no monthly subscriptions or per-photo fees.',
                   },
                 },
               ],
@@ -297,6 +358,19 @@ const faqAnswerStyle = {
   color: '#6B5E54',
   lineHeight: 1.7,
   margin: 0,
+}
+
+const crossLinkStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '14px 18px',
+  background: 'white',
+  border: '1px solid #D4C8BA',
+  borderRadius: '10px',
+  textDecoration: 'none',
+  transition: 'all 0.15s ease',
+  gap: '12px',
 }
 
 const ctaBtnStyle = {

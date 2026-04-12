@@ -25,6 +25,11 @@ const TermsOfService = lazy(() => import('./pages/TermsOfService'))
 const SetupGuide = lazy(() => import('./pages/SetupGuide'))
 const ColorPalette = lazy(() => import('./pages/ColorPalette'))
 const HowItWorks = lazy(() => import('./pages/HowItWorks'))
+const WhatYouNeed = lazy(() => import('./pages/WhatYouNeed'))
+const ForPlanners = lazy(() => import('./pages/ForPlanners'))
+const ForWeddingParty = lazy(() => import('./pages/ForWeddingParty'))
+const ForPhotographers = lazy(() => import('./pages/ForPhotographers'))
+const ForDJs = lazy(() => import('./pages/ForDJs'))
 
 // Minimal loading indicator matching the design system
 const PageLoader = () => (
@@ -73,6 +78,11 @@ function App() {
         {/* Free tools + SEO pages */}
         <Route path="/tools/colors" element={<ColorPalette />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/what-you-need" element={<WhatYouNeed />} />
+        <Route path="/for-planners" element={<ForPlanners />} />
+        <Route path="/for-wedding-party" element={<ForWeddingParty />} />
+        <Route path="/for-photographers" element={<ForPhotographers />} />
+        <Route path="/for-djs" element={<ForDJs />} />
 
         {/* Guest-facing routes (no app chrome) */}
         <Route path="/share/:shareCode" element={<SharedAlbum />} />

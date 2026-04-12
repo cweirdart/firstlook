@@ -923,7 +923,12 @@ const LandingPage = () => {
             <h4>Resources</h4>
             <ul>
               <li><Link to="/how-it-works">How It Works</Link></li>
+              <li><Link to="/what-you-need">What You Need</Link></li>
               <li><Link to="/tools/colors">Color Palette Generator</Link></li>
+              <li><Link to="/for-planners">For Wedding Planners</Link></li>
+              <li><Link to="/for-wedding-party">For the Wedding Party</Link></li>
+              <li><Link to="/for-photographers">For Photographers</Link></li>
+              <li><Link to="/for-djs">For DJs</Link></li>
             </ul>
           </div>
           <div className="footer-section">

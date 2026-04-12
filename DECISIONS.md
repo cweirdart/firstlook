@@ -101,6 +101,18 @@ Running log of all decisions, directions, and open questions so nothing gets los
 - **Wedding Day Setup Guide** (`/album/:id/setup`) — step-by-step guide designed to be texted to whoever is setting up the venue (best man, DJ, coordinator). Includes: print table signs, set up display device (with link copy buttons for TV/Slideshow), share upload link, troubleshooting FAQ. "Send to helper" button uses Web Share API or clipboard.
 - **Color Palette Generator** (`/tools/colors`) — free wedding planning tool. 12 curated palettes with tag filters (classic, boho, romantic, seasonal), "Build Your Own" mode with color picker that generates harmonious 5-color palettes. Copy individual hex codes or all at once. CTA to First Look product. First of the "wedding tools" add-ons for SEO/lead gen.
 
+## Features Built (v5 — April 2026)
+
+- **SEO pages for every wedding role:**
+  - `/for-planners` — targeting wedding planners & coordinators. First Look vs photo booth comparison, setup instructions, FAQ, JSON-LD FAQPage schema.
+  - `/for-wedding-party` — targeting best man, maid of honor, bridesmaids, groomsmen. Role-specific tips, step-by-step setup, troubleshooting, FAQ, JSON-LD schema.
+  - `/for-photographers` — targeting photographers who can recommend or bundle First Look. Professional vs guest photo comparison, package add-on positioning, FAQ, JSON-LD schema.
+  - `/for-djs` — targeting wedding DJs & MCs. Photo booth replacement pitch, DJ package upsell pricing ($99 cost → $150-250 markup), AV integration, FAQ, JSON-LD schema.
+- **Cross-linking between all SEO pages** — HowItWorks and ForPlanners pages now link to all role-specific pages, creating an internal link network for SEO.
+- **Enriched structured data** — index.html now has WebSite schema, Organization schema, WebPage schema with BreadcrumbList pointing to all content pages.
+- **Landing page footer updated** — Resources section now links to all 7 content/tool pages.
+- **Sitemap expanded** — all new pages added with appropriate priority weights.
+
 ## Open Questions
 
 - [x] Product name — **First Look** (firstlook.love)
