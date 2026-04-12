@@ -4,6 +4,7 @@ import { useAppDispatch } from '../context/AppContext'
 import * as storage from '../services/storage'
 import { generateId, generateShareCode } from '../utils/id'
 import { hashPassword } from '../utils/crypto'
+import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
 
 export default function NewAlbum() {
   const navigate = useNavigate()
@@ -14,6 +15,7 @@ export default function NewAlbum() {
     description: '',
     password: '',
     protectWithPassword: false,
+    coupleType: 'bride-groom',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
@@ -66,6 +68,7 @@ export default function NewAlbum() {
         description: formData.description.trim(),
         shareCode,
         passwordHash,
+        coupleType: formData.coupleType,
         photoCount: 0,
         createdAt: new Date().toISOString(),
         coverPhotoUrl: null,
@@ -145,6 +148,45 @@ export default function NewAlbum() {
                 fontFamily: 'inherit',
               }}
             />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label className="label" style={{ marginBottom: '8px', display: 'block' }}>
+              Couple Type
+            </label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {COUPLE_TYPE_OPTIONS.map(option => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, coupleType: option.value }))}
+                  disabled={isSubmitting}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 'var(--radius-md)',
+                    border: formData.coupleType === option.value
+                      ? '2px solid var(--accent)'
+                      : '1px solid var(--border)',
+                    background: formData.coupleType === option.value
+                      ? 'rgba(184, 151, 106, 0.08)'
+                      : 'var(--bg-card)',
+                    color: formData.coupleType === option.value
+                      ? 'var(--accent-dark)'
+                      : 'var(--text-secondary)',
+                    fontSize: '13px',
+                    fontWeight: formData.coupleType === option.value ? '600' : '400',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            <p style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
+              This customizes language throughout your album (e.g., "best man" vs "best woman")
+            </p>
           </div>
 
           <div style={{ marginBottom: '24px' }}>

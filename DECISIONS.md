@@ -113,6 +113,12 @@ Running log of all decisions, directions, and open questions so nothing gets los
 - **Landing page footer updated** — Resources section now links to all 7 content/tool pages.
 - **Sitemap expanded** — all new pages added with appropriate priority weights.
 
+## Features Built (v6 — April 2026)
+
+- **llms.txt** — Plain-text file at `/llms.txt` describing First Look for AI crawlers (ChatGPT, Perplexity, Claude). Includes full product description, feature list, comparison table, pricing, audience breakdown, and links to all content pages.
+- **robots.txt** — Explicitly allows GPTBot, ChatGPT-User, Claude-Web, Anthropic-AI, PerplexityBot, and Google-Extended. Blocks authenticated routes (dashboard, album, admin).
+- **Couple-type customization** — Album creation now includes a couple-type selector: Bride & Groom, Groom & Bride, Bride & Bride, Groom & Groom, or Custom. Stored on the album as `couple_type`. Used by `coupleType.js` utility to derive role labels (best man, maid of honor, etc.) throughout the app. SetupGuide and AlbumView both use it. Migration: `004_couple_type.sql`.
+
 ## Open Questions
 
 - [x] Product name — **First Look** (firstlook.love)

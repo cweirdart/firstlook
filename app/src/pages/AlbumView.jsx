@@ -5,6 +5,7 @@ import JSZip from 'jszip'
 import * as storage from '../services/storage'
 import { stripMetadata } from '../utils/exif'
 import { generateId } from '../utils/id'
+import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
 
 export default function AlbumView() {
   const { id: albumId } = useParams()
@@ -1116,6 +1117,33 @@ export default function AlbumView() {
                 </div>
                 Moderation
               </label>
+
+              {/* Couple type selector */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--text-muted)', marginRight: '4px' }}>Couple:</span>
+                <select
+                  value={album?.coupleType || 'bride-groom'}
+                  onChange={async (e) => {
+                    const updated = { ...album, coupleType: e.target.value }
+                    setAlbum(updated)
+                    await storage.saveAlbum(updated)
+                  }}
+                  style={{
+                    padding: '4px 8px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg-card)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {COUPLE_TYPE_OPTIONS.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
         )}

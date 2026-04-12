@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import * as storage from '../services/storage'
+import { getHelperList } from '../utils/coupleType'
 
 /**
  * Wedding Day Setup Guide — designed to be shared with the best man,
@@ -93,13 +94,13 @@ export default function SetupGuide() {
           </p>
         </div>
 
-        {/* Send to helper button */}
+        {/* Send to setup person */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <button onClick={shareSetupGuide} style={primaryBtnStyle}>
-            {copied === 'message' ? 'Copied to clipboard!' : 'Send This Guide to Your Helper'}
+            {copied === 'message' ? 'Copied to clipboard!' : 'Send This Guide'}
           </button>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
-            Text or email this page to your best man, DJ, or venue coordinator
+            Text or email this page to your {album ? getHelperList(album.coupleType) : 'best man, maid of honor, DJ, or venue coordinator'}
           </p>
         </div>
 

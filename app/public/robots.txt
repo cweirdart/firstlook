@@ -1,10 +1,41 @@
 User-agent: *
 Allow: /
-Disallow: /admin
 Disallow: /dashboard
 Disallow: /album/
+Disallow: /admin
+Disallow: /login
+Disallow: /signup
 Disallow: /upload/
 Disallow: /share/
 Disallow: /tv/
+
+# AI crawlers — welcome
+User-agent: GPTBot
+Allow: /
+Allow: /how-it-works
+Allow: /what-you-need
+Allow: /for-planners
+Allow: /for-wedding-party
+Allow: /for-photographers
+Allow: /for-djs
+Allow: /tools/colors
+Disallow: /dashboard
+Disallow: /album/
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 Sitemap: https://firstlook.love/sitemap.xml

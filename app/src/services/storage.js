@@ -441,6 +441,7 @@ function mapAlbumFromDB(row) {
     moderationEnabled: row.moderation_enabled,
     coverPhotoUrl: row.cover_photo_url,
     photoCount: row.photo_count,
+    coupleType: row.couple_type || 'bride-groom',
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }
@@ -457,6 +458,7 @@ function mapAlbumToDB(album) {
     moderation_enabled: album.moderationEnabled || false,
     cover_photo_url: album.coverPhotoUrl || null,
     photo_count: album.photoCount || 0,
+    couple_type: album.coupleType || 'bride-groom',
   }
 }
 
