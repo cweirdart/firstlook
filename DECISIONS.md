@@ -84,11 +84,22 @@ Running log of all decisions, directions, and open questions so nothing gets los
 
 | Decision | Detail | Date |
 |----------|--------|------|
-| **Stay focused on photos** | Rejected expanding into "all-in-one wedding app" (color palette, seating charts, etc.). First Look's strength is focus: private photo sharing, done well. Color palette tools etc. could be a free lead-gen tool later, but not in the core product. | 2026-04-05 |
+| **All-in-one wedding platform** | Reversed earlier "stay focused on photos" decision. New strategy: photo QR sharing is the unique hook, then upsell planning tools (color palettes, RSVP, seating), merch/dropshipping, and services. "I might as well just pay for it all from First Look." Free tools (like color palette generator) double as SEO/lead gen. | 2026-04-12 |
 | **Landing page integrated into React app** | Moved landing page from standalone HTML into a React component (`LandingPage.jsx`). `/` shows landing page, `/dashboard` shows authenticated app. One Vercel project deploys everything. | 2026-04-05 |
 | **Use existing Stripe account** | No need for a separate Stripe account. Create a Product + $99 Price under existing account. Separate accounts only needed if First Look becomes its own legal entity. | 2026-04-09 |
 | **Video messages = premium upsell** | Guest video messages (30-60s, browser-recorded) planned as first premium feature. Upsell via add-on or higher pricing tier. Builds on existing guest book UX. Ship core product first, add video post-launch. | 2026-04-09 |
 | **Merch/print-on-demand = future integration** | T-shirts, mugs, party favors via dropshipping. Targets bridal party planners (best man, bridesmaids). Will connect to Christopher's separate apparel mockup app when ready. Not in v1 — ship core photo product first, add merch as a revenue expansion. | 2026-04-09 |
+
+## Features Built (v4 — April 2026)
+
+- **Video messages feature** — full end-to-end: VideoRecorder component (MediaRecorder API, 60s max, 50MB limit, WebM/MP4), storage service functions (save/get/delete), Supabase migration (`003_video_messages.sql`), Upload page integration (record button, upload progress), AlbumView playback component (video player, guest attribution, delete, show-all expansion).
+- **Realtime subscriptions** — replaced 8-10s polling in Slideshow and TVDisplay with Supabase realtime subscriptions (`subscribeToPhotos`). Photos now appear instantly on display screens when guests upload.
+- **Dashboard quick actions** — Share (copy guest upload link), Slideshow, TV, and Setup Guide buttons on each album card. No more navigating into albums for common actions.
+- **Guest count stat** — AlbumView stats bar now shows unique guest count derived from photo `guestName` field.
+- **Filter by guest** — dropdown in AlbumView to filter photo grid by individual guest name.
+- **Slideshow keyboard help** — press `?` to see all keyboard shortcuts in a styled overlay (Space/arrows, P for pause, F for fullscreen, Esc to close).
+- **Wedding Day Setup Guide** (`/album/:id/setup`) — step-by-step guide designed to be texted to whoever is setting up the venue (best man, DJ, coordinator). Includes: print table signs, set up display device (with link copy buttons for TV/Slideshow), share upload link, troubleshooting FAQ. "Send to helper" button uses Web Share API or clipboard.
+- **Color Palette Generator** (`/tools/colors`) — free wedding planning tool. 12 curated palettes with tag filters (classic, boho, romantic, seasonal), "Build Your Own" mode with color picker that generates harmonious 5-color palettes. Copy individual hex codes or all at once. CTA to First Look product. First of the "wedding tools" add-ons for SEO/lead gen.
 
 ## Open Questions
 

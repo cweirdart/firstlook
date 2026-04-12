@@ -22,6 +22,9 @@ const CheckoutSuccess = lazy(() => import('./pages/CheckoutSuccess'))
 const Admin = lazy(() => import('./pages/Admin'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const TermsOfService = lazy(() => import('./pages/TermsOfService'))
+const SetupGuide = lazy(() => import('./pages/SetupGuide'))
+const ColorPalette = lazy(() => import('./pages/ColorPalette'))
+const HowItWorks = lazy(() => import('./pages/HowItWorks'))
 
 // Minimal loading indicator matching the design system
 const PageLoader = () => (
@@ -67,6 +70,10 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
 
+        {/* Free tools + SEO pages */}
+        <Route path="/tools/colors" element={<ColorPalette />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+
         {/* Guest-facing routes (no app chrome) */}
         <Route path="/share/:shareCode" element={<SharedAlbum />} />
         <Route path="/upload/:shareCode" element={<Upload />} />
@@ -85,6 +92,7 @@ function App() {
           <Route path="/album/:id" element={<AlbumView />} />
           <Route path="/album/:id/signs" element={<TableSignGenerator />} />
           <Route path="/album/:id/slideshow" element={<Slideshow />} />
+          <Route path="/album/:id/setup" element={<SetupGuide />} />
         </Route>
 
         {/* 404 catch-all */}

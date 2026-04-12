@@ -920,6 +920,13 @@ const LandingPage = () => {
             </ul>
           </div>
           <div className="footer-section">
+            <h4>Resources</h4>
+            <ul>
+              <li><Link to="/how-it-works">How It Works</Link></li>
+              <li><Link to="/tools/colors">Color Palette Generator</Link></li>
+            </ul>
+          </div>
+          <div className="footer-section">
             <h4>Company</h4>
             <ul>
               <li><a href="mailto:hello@firstlook.love">Contact</a></li>
