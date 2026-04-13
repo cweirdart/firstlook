@@ -13,6 +13,42 @@ const LandingPage = () => {
   const [feedback, setFeedback] = useState('');
   const [feedbackType, setFeedbackType] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const faqs = [
+    {
+      q: 'Do guests need to download an app?',
+      a: 'No. Guests scan a QR code with their phone camera and the upload page opens in their browser. Photos upload directly — no account, no install, no friction.',
+    },
+    {
+      q: 'How much does First Look cost?',
+      a: 'One-time $99 per wedding. That covers unlimited guests, unlimited photos, the live reception slideshow, table signs, and lifetime access to your album. No subscriptions, no per-photo fees, no storage limits.',
+    },
+    {
+      q: 'What do we need to set up the reception slideshow?',
+      a: 'Any screen with a web browser — a venue TV, a projector, a laptop, an Amazon Fire Stick, an old iPad on a stand. Open the TV Display link, put it in fullscreen, and guest photos appear in real time. See our What You Need guide for more.',
+    },
+    {
+      q: 'What happens if the WiFi drops out during the reception?',
+      a: 'Guest uploads are queued on their phones and sent the moment WiFi comes back. The live slideshow also retries automatically when it reconnects. First Look is built for flaky venue networks.',
+    },
+    {
+      q: 'Can we moderate photos before they show up on screen?',
+      a: 'Yes. Toggle moderation on in album settings and new uploads wait in a review queue before appearing on the live slideshow. You can approve from any device.',
+    },
+    {
+      q: 'Do we own the photos our guests upload?',
+      a: 'Yes. You own every photo uploaded to your album, forever. Download them all as a zip from your dashboard any time. First Look does not license, resell, or train AI on your photos.',
+    },
+    {
+      q: 'Is First Look a good fit for non-traditional weddings?',
+      a: 'Yes. When you create your album, pick from Bride & Groom, Groom & Bride, Bride & Bride, Groom & Groom, or a fully custom option where you enter your own titles, honor attendants, and wedding party terms. The app adapts the language it uses everywhere.',
+    },
+    {
+      q: 'Can our wedding planner, DJ, or best man set this up for us?',
+      a: 'Absolutely. Each album has a Setup Guide link you can send to anyone helping with the day — it includes every link they need, printable sign instructions, and troubleshooting. No First Look account needed on their end.',
+    },
+  ];
 
   // Intersection Observer for fade-in animations
   useEffect(() => {
@@ -548,6 +584,77 @@ const LandingPage = () => {
           margin-top: 16px;
         }
 
+        /* FAQ */
+        .landing-page .faq {
+          padding: 100px 24px;
+          background: var(--bg-card);
+        }
+
+        .landing-page .faq-content {
+          max-width: 720px;
+          margin: 0 auto;
+        }
+
+        .landing-page .faq h2 {
+          font-family: var(--font-display);
+          font-size: clamp(1.8rem, 5vw, 2.5rem);
+          font-weight: 400;
+          color: var(--text-primary);
+          text-align: center;
+          margin-bottom: 48px;
+        }
+
+        .landing-page .faq-item {
+          border-bottom: 1px solid var(--border);
+          padding: 20px 0;
+        }
+
+        .landing-page .faq-item:first-of-type {
+          border-top: 1px solid var(--border);
+        }
+
+        .landing-page .faq-question {
+          width: 100%;
+          background: transparent;
+          border: none;
+          padding: 0;
+          font-family: var(--font-body);
+          font-size: 1rem;
+          font-weight: 500;
+          color: var(--text-primary);
+          text-align: left;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .landing-page .faq-question:hover { color: var(--accent); }
+
+        .landing-page .faq-chevron {
+          font-size: 1.25rem;
+          color: var(--accent);
+          transition: transform 0.2s ease;
+          flex-shrink: 0;
+        }
+
+        .landing-page .faq-item.is-open .faq-chevron { transform: rotate(45deg); }
+
+        .landing-page .faq-answer {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease, padding 0.3s ease;
+          font-size: 0.95rem;
+          line-height: 1.65;
+          color: var(--text-secondary);
+        }
+
+        .landing-page .faq-item.is-open .faq-answer {
+          max-height: 500px;
+          padding-top: 14px;
+        }
+
         /* Waitlist */
         .landing-page .waitlist {
           padding: 100px 24px;
@@ -721,6 +828,7 @@ const LandingPage = () => {
             <li><a href="#how" onClick={(e) => handleSmoothScroll(e, 'how')}>How It Works</a></li>
             <li><a href="#features" onClick={(e) => handleSmoothScroll(e, 'features')}>Features</a></li>
             <li><a href="#pricing" onClick={(e) => handleSmoothScroll(e, 'pricing')}>Pricing</a></li>
+            <li><a href="#faq" onClick={(e) => handleSmoothScroll(e, 'faq')}>FAQ</a></li>
             <li><a href="#waitlist" onClick={(e) => handleSmoothScroll(e, 'waitlist')}>Waitlist</a></li>
           </ul>
         </div>
@@ -876,6 +984,44 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="faq" id="faq">
+        <div className="faq-content">
+          <h2>Common Questions</h2>
+          {faqs.map((item, i) => (
+            <div key={i} className={`faq-item ${openFaq === i ? 'is-open' : ''}`}>
+              <button
+                type="button"
+                className="faq-question"
+                aria-expanded={openFaq === i}
+                aria-controls={`faq-answer-${i}`}
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
+                <span>{item.q}</span>
+                <span className="faq-chevron" aria-hidden="true">+</span>
+              </button>
+              <div id={`faq-answer-${i}`} className="faq-answer" role="region">
+                <p>{item.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map(item => ({
+                '@type': 'Question',
+                name: item.q,
+                acceptedAnswer: { '@type': 'Answer', text: item.a },
+              })),
+            }),
+          }}
+        />
+      </section>
+
       {/* Waitlist */}
       <section className="waitlist" id="waitlist">
         <div className="waitlist-content">
@@ -927,6 +1073,7 @@ const LandingPage = () => {
           <div className="footer-section">
             <h4>Resources</h4>
             <ul>
+              <li><Link to="/guides">All Guides</Link></li>
               <li><Link to="/how-it-works">How It Works</Link></li>
               <li><Link to="/what-you-need">What You Need</Link></li>
               <li><Link to="/tools/colors">Color Palette Generator</Link></li>

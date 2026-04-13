@@ -472,6 +472,37 @@ textarea.input {
   outline-offset: 2px;
 }
 
+/* ── Skip-to-content link (keyboard accessibility) ──── */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  z-index: 1000;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: top 0.15s ease;
+}
+
+.skip-nav:focus {
+  top: 8px;
+}
+
+/* Respect user reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Selection ─────────────────────────────────────── */
 ::selection {
   background: rgba(184, 151, 106, 0.2);

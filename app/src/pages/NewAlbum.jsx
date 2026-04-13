@@ -4,7 +4,7 @@ import { useAppDispatch } from '../context/AppContext'
 import * as storage from '../services/storage'
 import { generateId, generateShareCode } from '../utils/id'
 import { hashPassword } from '../utils/crypto'
-import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
+import { COUPLE_TYPE_OPTIONS, CUSTOM_LABEL_FIELDS } from '../utils/coupleType'
 import { trackEvent } from '../utils/analytics'
 
 export default function NewAlbum() {
@@ -18,6 +18,14 @@ export default function NewAlbum() {
     protectWithPassword: false,
     coupleType: 'bride-groom',
     weddingDate: '',
+    customLabels: {
+      partner1: '',
+      partner2: '',
+      bestPerson1: '',
+      bestPerson2: '',
+      attendants1: '',
+      attendants2: '',
+    },
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
@@ -64,6 +72,17 @@ export default function NewAlbum() {
         passwordHash = await hashPassword(formData.password)
       }
 
+      // Only persist customLabels when coupleType is 'custom', and trim blank fields
+      let customLabels = null
+      if (formData.coupleType === 'custom') {
+        customLabels = {}
+        for (const [key, value] of Object.entries(formData.customLabels)) {
+          const trimmed = (value || '').trim()
+          if (trimmed) customLabels[key] = trimmed
+        }
+        if (Object.keys(customLabels).length === 0) customLabels = null
+      }
+
       const album = {
         id: albumId,
         name: formData.name.trim(),
@@ -71,6 +90,7 @@ export default function NewAlbum() {
         shareCode,
         passwordHash,
         coupleType: formData.coupleType,
+        customLabels,
         weddingDate: formData.weddingDate || null,
         photoCount: 0,
         createdAt: new Date().toISOString(),
@@ -192,6 +212,57 @@ export default function NewAlbum() {
             <p style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
               This customizes language throughout your album (e.g., "best man" vs "best woman")
             </p>
+
+            {formData.coupleType === 'custom' && (
+              <div
+                style={{
+                  marginTop: '16px',
+                  padding: '16px',
+                  background: 'var(--bg-primary)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-md)',
+                }}
+              >
+                <p
+                  style={{
+                    margin: '0 0 12px',
+                    fontSize: '13px',
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Enter the terms your wedding party uses. Leave any field blank to use a neutral default.
+                </p>
+                <div style={{ display: 'grid', gap: '12px' }}>
+                  {CUSTOM_LABEL_FIELDS.map(field => (
+                    <div key={field.key}>
+                      <label
+                        htmlFor={`custom-${field.key}`}
+                        className="label"
+                        style={{ fontSize: '12px', marginBottom: '4px', display: 'block' }}
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        id={`custom-${field.key}`}
+                        type="text"
+                        className="input"
+                        placeholder={field.placeholder}
+                        value={formData.customLabels[field.key]}
+                        onChange={(e) =>
+                          setFormData(prev => ({
+                            ...prev,
+                            customLabels: { ...prev.customLabels, [field.key]: e.target.value },
+                          }))
+                        }
+                        disabled={isSubmitting}
+                        maxLength={60}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div style={{ marginBottom: '20px' }}>

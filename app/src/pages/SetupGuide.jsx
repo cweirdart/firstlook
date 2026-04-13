@@ -102,7 +102,7 @@ export default function SetupGuide() {
             {copied === 'message' ? 'Copied to clipboard!' : 'Send This Guide'}
           </button>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
-            Text or email this page to your {album ? getHelperList(album.coupleType) : 'best man, maid of honor, DJ, or venue coordinator'}
+            Text or email this page to your {album ? getHelperList(album) : 'best man, maid of honor, DJ, or venue coordinator'}
           </p>
         </div>
 

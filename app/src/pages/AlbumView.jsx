@@ -5,7 +5,7 @@ import JSZip from 'jszip'
 import * as storage from '../services/storage'
 import { stripMetadata } from '../utils/exif'
 import { generateId } from '../utils/id'
-import { COUPLE_TYPE_OPTIONS } from '../utils/coupleType'
+import { COUPLE_TYPE_OPTIONS, CUSTOM_LABEL_FIELDS } from '../utils/coupleType'
 import { compressImage } from '../utils/imageCompression'
 
 export default function AlbumView() {
@@ -22,6 +22,7 @@ export default function AlbumView() {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [viewMode, setViewMode] = useState('all') // all, pending, favorites
   const [guestFilter, setGuestFilter] = useState('') // filter by guest name
+  const [showCustomLabels, setShowCustomLabels] = useState(false)
   const fileInputRef = useRef(null)
   const dragZoneRef = useRef(null)
 
@@ -1126,7 +1127,11 @@ export default function AlbumView() {
                 <select
                   value={album?.coupleType || 'bride-groom'}
                   onChange={async (e) => {
-                    const updated = { ...album, coupleType: e.target.value }
+                    const newType = e.target.value
+                    const updated = { ...album, coupleType: newType }
+                    // Clear customLabels when leaving custom so a later return to
+                    // custom starts from defaults instead of stale overrides.
+                    if (newType !== 'custom') updated.customLabels = null
                     setAlbum(updated)
                     await storage.saveAlbum(updated)
                   }}
@@ -1145,8 +1150,92 @@ export default function AlbumView() {
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
                   ))}
                 </select>
+                {album?.coupleType === 'custom' && (
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomLabels(v => !v)}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--border)',
+                      background: showCustomLabels ? 'var(--accent)' : 'var(--bg-card)',
+                      color: showCustomLabels ? 'white' : 'var(--text-secondary)',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {showCustomLabels ? 'Done' : 'Edit labels'}
+                  </button>
+                )}
               </div>
             </div>
+
+            {album?.coupleType === 'custom' && showCustomLabels && (
+              <div style={{
+                marginTop: '12px',
+                padding: '16px',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}>
+                <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                  Custom role labels. Leave blank for neutral defaults. Changes save automatically.
+                </p>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gap: '10px',
+                }}>
+                  {CUSTOM_LABEL_FIELDS.map(field => (
+                    <div key={field.key}>
+                      <label
+                        style={{
+                          display: 'block',
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '11px',
+                          color: 'var(--text-muted)',
+                          marginBottom: '3px',
+                        }}
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        type="text"
+                        value={(album?.customLabels && album.customLabels[field.key]) || ''}
+                        placeholder={field.placeholder}
+                        maxLength={60}
+                        onChange={async (e) => {
+                          const val = e.target.value
+                          const nextLabels = { ...(album?.customLabels || {}) }
+                          if (val.trim()) nextLabels[field.key] = val
+                          else delete nextLabels[field.key]
+                          const updated = {
+                            ...album,
+                            customLabels: Object.keys(nextLabels).length ? nextLabels : null,
+                          }
+                          setAlbum(updated)
+                        }}
+                        onBlur={async () => {
+                          // Persist on blur so every keystroke isn't a DB write
+                          await storage.saveAlbum(album)
+                        }}
+                        style={{
+                          width: '100%',
+                          padding: '6px 10px',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border)',
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '12px',
+                          background: 'var(--bg-primary)',
+                          color: 'var(--text-primary)',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

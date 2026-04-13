@@ -442,6 +442,7 @@ function mapAlbumFromDB(row) {
     coverPhotoUrl: row.cover_photo_url,
     photoCount: row.photo_count,
     coupleType: row.couple_type || 'bride-groom',
+    customLabels: row.custom_labels || null,
     weddingDate: row.wedding_date || null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -460,6 +461,7 @@ function mapAlbumToDB(album) {
     cover_photo_url: album.coverPhotoUrl || null,
     photo_count: album.photoCount || 0,
     couple_type: album.coupleType || 'bride-groom',
+    custom_labels: album.customLabels || null,
     wedding_date: album.weddingDate || null,
   }
 }

@@ -180,3 +180,19 @@ Running log of all decisions, directions, and open questions so nothing gets los
 | Private Party branding | This is a separate product. | 2026-04-05 |
 | Native iOS/Android app | Web-first is the right call. "No app download" is a feature, not a limitation. Guests never download anything. Avoids 30% app store tax. PWA possible later. | 2026-04-05 |
 | Laptop for TV display | Couples shouldn't need extra hardware. Smart TV browser + short URL solves it. Fire Stick as $30 fallback. | 2026-04-05 |
+
+## Features Built (v8 — 2026-04-13, continued)
+
+Continuing the session-per-session push to ship before May 2026 wedding season.
+
+- **Couple-type Custom mode** — added full custom-labels flow so the 'custom' couple type actually works (previously it just fell back to neutral defaults). Users can enter their own `partner1`/`partner2`/`bestPerson1`/`bestPerson2`/`attendants1`/`attendants2` labels during album creation and edit them later in Album Settings. Storage layer persists to a new `custom_labels` JSONB column (migration `005_custom_labels.sql`). `getRoleLabels()` and `getHelperList()` now accept either a couple-type string or the full album object — when given an album they merge `customLabels` over neutral defaults.
+- **Guides index page** (`/guides`) — hub page linking every SEO content page (How It Works, What You Need, For Planners, For Wedding Party, For Photographers, For DJs). Includes CollectionPage JSON-LD. One-click reference point for crawlers and visitors who land on any role page. Added to sitemap.xml with priority 0.9.
+- **Landing page FAQ section** — 8-question accordion between pricing and waitlist, covering the top pre-purchase questions (price, app download, WiFi failure, moderation, photo ownership, non-traditional weddings, who can set it up, device requirements). Each FAQ is mirrored in an inline FAQPage JSON-LD schema for LLM/Google answer-box discoverability. FAQ anchor added to top nav and footer.
+- **Accessibility baseline** — skip-to-content link on AppLayout (visible only on keyboard focus, respects the `.skip-nav` style), `aria-expanded`/`aria-controls` on the mobile menu button, FAQ accordion uses proper `aria-expanded`/`aria-controls`/`role=region`. Added `prefers-reduced-motion` media query globally to kill animations for users who've opted out.
+- **STRIPE_SETUP.md** — developer-facing checklist for going live with Stripe: product/price creation, env vars (VITE_STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_WEDDING_PRICE_ID), webhook endpoint + events, local testing via `stripe listen`, pre-launch checklist, and future add-on pricing plan (merch, photographer referral, planner seats).
+
+## Open Questions (updated 2026-04-13)
+
+- [ ] Run migration `005_custom_labels.sql` in Supabase SQL editor to add `custom_labels` JSONB column on `albums`.
+- [ ] Stripe integration: follow STRIPE_SETUP.md once ready to go live.
+- [ ] Build actual /api/checkout and /api/stripe-webhook routes (currently LandingPage → /checkout page captures waitlist intent only).

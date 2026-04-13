@@ -31,6 +31,7 @@ const ForPlanners = lazy(() => import('./pages/ForPlanners'))
 const ForWeddingParty = lazy(() => import('./pages/ForWeddingParty'))
 const ForPhotographers = lazy(() => import('./pages/ForPhotographers'))
 const ForDJs = lazy(() => import('./pages/ForDJs'))
+const Guides = lazy(() => import('./pages/Guides'))
 
 // Minimal loading indicator matching the design system
 const PageLoader = () => (
@@ -86,6 +87,7 @@ function App() {
         <Route path="/for-wedding-party" element={<ForWeddingParty />} />
         <Route path="/for-photographers" element={<ForPhotographers />} />
         <Route path="/for-djs" element={<ForDJs />} />
+        <Route path="/guides" element={<Guides />} />
 
         {/* Guest-facing routes (no app chrome) */}
         <Route path="/share/:shareCode" element={<SharedAlbum />} />

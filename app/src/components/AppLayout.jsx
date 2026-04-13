@@ -21,6 +21,9 @@ export default function AppLayout() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Skip-to-content link — only visible on keyboard focus */}
+      <a href="#main-content" className="skip-nav">Skip to main content</a>
+
       {/* Top Navigation Bar */}
       <nav style={{
         background: 'var(--bg-primary)',
@@ -76,6 +79,8 @@ export default function AppLayout() {
           }}
           className="mobile-menu-button"
           aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-menu"
         >
           {mobileMenuOpen ? '\u2715' : '\u2630'}
         </button>
@@ -93,6 +98,7 @@ export default function AppLayout() {
             gap: '4px',
           }}
           className="mobile-nav-menu"
+          id="mobile-nav-menu"
         >
           <NavLink
             to="/dashboard"
@@ -131,7 +137,7 @@ export default function AppLayout() {
       )}
 
       {/* Page Content */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
+      <main id="main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
         <Outlet />
       </main>
 
